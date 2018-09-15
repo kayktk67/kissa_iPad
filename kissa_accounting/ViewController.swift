@@ -48,8 +48,10 @@ UICollectionViewDelegate {
             }else if intstatus! == 1{
                 Cell.contentView.backgroundColor = UIColor.yellow
             }else if intstatus! == 2{
-                Cell.contentView.backgroundColor = UIColor.red
+                Cell.contentView.backgroundColor = UIColor.magenta
             }else if intstatus! == 3{
+                Cell.contentView.backgroundColor = UIColor.red
+            }else if intstatus! == 4{
                 Cell.contentView.backgroundColor = UIColor.cyan
             }
         }
@@ -68,6 +70,8 @@ UICollectionViewDelegate {
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default){ (action: UIAlertAction) in
             self.DBRef.child("table/order").child(self.number[indexPath.row]).setValue(["b1amount":0,"s1amount":0,"d1amount":0,"de1amount":0,"time":0])
             self.DBRef.child("table/status").child(self.number[indexPath.row]).setValue(0)
+            self.DBRef.child("table/bsstatus").child(self.number[indexPath.row]).setValue(0)
+            self.DBRef.child("table/ddstatus").child(self.number[indexPath.row]).setValue(0)
             var hogekey : String?
             let defaultPlace = self.DBRef.child("table/orderkey").child(self.number[indexPath.row])
             defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in hogekey = (snapshot.value! as AnyObject).description

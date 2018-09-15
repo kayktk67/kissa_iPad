@@ -18,14 +18,11 @@
         var array1 : [String] = []
         var b1amount = Array(repeating: "0", count: 20)
         var s1amount = Array(repeating: "0", count: 20)
-        var d1amount = Array(repeating: "0", count: 20)
-        var de1amount = Array(repeating: "0", count: 20)
         var time = Array(repeating: "0", count: 20)
         var dateUnix: TimeInterval = 0
         var hogetime : String?
         
         @IBOutlet weak var tableView: UITableView!
-        
         
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return self.hogearray.count
@@ -36,10 +33,10 @@
             
             var status1 : String?
             var intstatus1 : Int?
-            let defaultPlacex = DBRef.child("table/status").child(hogearray[indexPath.row])
+            let defaultPlacex = DBRef.child("table/bsstatus").child(hogearray[indexPath.row])
             defaultPlacex.observe(.value) { (snap: DataSnapshot) in status1 = (snap.value! as AnyObject).description
                 intstatus1 = Int(status1!)
-                if intstatus1! == 2{
+                if intstatus1! == 1{
                     cell.contentView.backgroundColor = UIColor.cyan
                 }else{
                     cell.contentView.backgroundColor = UIColor.clear
@@ -58,12 +55,8 @@
             defaultPlace.observe(.value) { (snap: DataSnapshot) in self.b1amount[indexPath.row] = (snap.value! as AnyObject).description}
             let defaultPlace1 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("s1amount")
             defaultPlace1.observe(.value) { (snap: DataSnapshot) in self.s1amount[indexPath.row] = (snap.value! as AnyObject).description}
-            let defaultPlace2 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("d1amount")
-            defaultPlace2.observe(.value) { (snap: DataSnapshot) in self.d1amount[indexPath.row] = (snap.value! as AnyObject).description}
-            let defaultPlace3 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("de1amount")
-            defaultPlace3.observe(.value) { (snap: DataSnapshot) in self.de1amount[indexPath.row] = (snap.value! as AnyObject).description}
             
-                    cell.textLabel!.text = "\(String(describing: self.time[indexPath.row])) Table\(String(describing:self.hogearray[indexPath.row])) パンA:\(String(describing: self.b1amount[indexPath.row])) スープA:\(String(describing: self.s1amount[indexPath.row])) ドリンクA:\(String(describing: self.d1amount[indexPath.row])) デザートA:\(String(describing: self.de1amount[indexPath.row]))"
+                    cell.textLabel!.text = "\(String(describing: self.time[indexPath.row])) Table\(String(describing:self.hogearray[indexPath.row])) パンA:\(String(describing: self.b1amount[indexPath.row])) スープA:\(String(describing: self.s1amount[indexPath.row]))"
         
             return cell
         }
@@ -71,8 +64,18 @@
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             let alertController = UIAlertController(title: "調理済み",message: "", preferredStyle: UIAlertControllerStyle.alert)
             let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default){ (action: UIAlertAction) in
-                self.DBRef.child("table/status").child(self.hogearray[indexPath.row]).setValue(2)
-                
+                self.DBRef.child("table/bsstatus").child(self.hogearray[indexPath.row]).setValue(1)
+                var status : String?
+                var intstatus : Int?
+                let defaultPlace = self.DBRef.child("table/ddstatus").child(self.hogearray[indexPath.row])
+                defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in status = (snapshot.value! as AnyObject).description
+                    intstatus = Int(status!)
+                    if intstatus! == 1{
+                        self.DBRef.child("table/status").child(self.hogearray[indexPath.row]).setValue(3)
+                    }else{
+                        self.DBRef.child("table/status").child(self.hogearray[indexPath.row]).setValue(2)
+                    }
+                })
             }
             let cancelButton = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler: nil)
             
