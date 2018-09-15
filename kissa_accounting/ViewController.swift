@@ -70,10 +70,10 @@ UICollectionViewDelegate {
             self.DBRef.child("table/status").child(self.number[indexPath.row]).setValue(0)
             var hogekey : String?
             let defaultPlace = self.DBRef.child("table/orderkey").child(self.number[indexPath.row])
-            defaultPlace.observe(.value) { (snap: DataSnapshot) in hogekey = (snap.value! as AnyObject).description
+            defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in hogekey = (snapshot.value! as AnyObject).description
                 self.DBRef.child("table/orderorder").child(hogekey!).setValue(nil)
                 self.DBRef.child("table/orderkey").child(self.number[indexPath.row]).setValue(nil)
-            }
+            })
         }
         let cancelButton = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler: nil)
         

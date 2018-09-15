@@ -41,6 +41,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="厨房用(DD)"/>
+                                <connections>
+                                    <action selector="toDDOrderList:" destination="4Gz-ze-9yD" eventType="touchUpInside" id="tKp-3h-iO9"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -50,6 +53,7 @@
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="toaccounting" id="0Pf-Ok-bCq"/>
                         <segue destination="sWs-Oe-MVb" kind="show" identifier="toorderlist" id="Drh-4q-cFv"/>
+                        <segue destination="5Ut-B7-xtq" kind="show" identifier="toddorderlist" id="wcZ-PW-IZJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Yc-4p-UhR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -302,6 +306,45 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xfd-WJ-5vQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2235.3515625" y="729.6875"/>
+        </scene>
+        <!--Order List View Controller-->
+        <scene sceneID="AHu-85-Xne">
+            <objects>
+                <viewController id="5Ut-B7-xtq" customClass="DDOrderListViewController" customModule="kissa_accounting" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="P1O-5a-TVM">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kva-iV-hQ5">
+                                <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="gVV-QT-bZJ">
+                                        <rect key="frame" x="0.0" y="28" width="1024" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gVV-QT-bZJ" id="evX-IW-7xR">
+                                            <rect key="frame" x="0.0" y="0.0" width="1024" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="5Ut-B7-xtq" id="6UY-9m-cLv"/>
+                                    <outlet property="delegate" destination="5Ut-B7-xtq" id="m6I-EN-Cyh"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Lsh-5A-FiN"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableview" destination="kva-iV-hQ5" id="v8C-QI-m2L"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YX0-sT-FTH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2234.765625" y="1451.5625"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ce4-2H-jJU">

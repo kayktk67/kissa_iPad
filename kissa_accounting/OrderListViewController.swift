@@ -87,6 +87,7 @@
             super.viewDidLoad()
             //インスタンスを作成
             DBRef = Database.database().reference()
+            //オーダーリストの取得
             let defaultPlace = DBRef.child("table/orderorder")
             defaultPlace.observe(.value, with: { snapshot in
                 var array: [String] = []
@@ -100,12 +101,12 @@
                     self.hogearray = array
                 }
             })
-            Timer.scheduledTimer( //TimerクラスのメソッドなのでTimerで宣言
-                timeInterval: 0.2, //処理を行う間隔の秒
-                target: self,  //指定した処理を記述するクラスのインスタンス
-                selector: #selector(self.newArray(_:)), //実行されるメソッド名
-                userInfo: nil, //selectorで指定したメソッドに渡す情報
-                repeats: true //処理を繰り返すか否か
+            Timer.scheduledTimer(
+                timeInterval: 0.2,
+                target: self,
+                selector: #selector(self.newArray(_:)),
+                userInfo: nil,
+                repeats: true
             )
         }
         @objc func newArray(_ sender: Timer) {
