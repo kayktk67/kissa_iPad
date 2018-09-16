@@ -16,7 +16,12 @@ class DDOrderListViewController: UIViewController, UITableViewDelegate, UITableV
     var hogearray : [String] = []
     var array1 : [String] = []
     var d1amount = Array(repeating: "0", count: 20)
+    var d2amount = Array(repeating: "0", count: 20)
+    var d3amount = Array(repeating: "0", count: 20)
+    var d4amount = Array(repeating: "0", count: 20)
     var de1amount = Array(repeating: "0", count: 20)
+    var de2amount = Array(repeating: "0", count: 20)
+    var de3amount = Array(repeating: "0", count: 20)
     var time = Array(repeating: "0", count: 20)
     var dateUnix: TimeInterval = 0
     var hogetime : String?
@@ -51,12 +56,23 @@ class DDOrderListViewController: UIViewController, UITableViewDelegate, UITableV
             self.time[indexPath.row] = formatter.string(from: hogedate as Date)
         }
         
-        let defaultPlace2 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("d1amount")
-        defaultPlace2.observe(.value) { (snap: DataSnapshot) in self.d1amount[indexPath.row] = (snap.value! as AnyObject).description}
-        let defaultPlace3 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("de1amount")
-        defaultPlace3.observe(.value) { (snap: DataSnapshot) in self.de1amount[indexPath.row] = (snap.value! as AnyObject).description}
+        let defaultPlace1 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("d1amount")
+        defaultPlace1.observe(.value) { (snap: DataSnapshot) in self.d1amount[indexPath.row] = (snap.value! as AnyObject).description}
+        let defaultPlace2 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("d2amount")
+        defaultPlace2.observe(.value) { (snap: DataSnapshot) in self.d2amount[indexPath.row] = (snap.value! as AnyObject).description}
+        let defaultPlace3 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("d3amount")
+        defaultPlace3.observe(.value) { (snap: DataSnapshot) in self.d3amount[indexPath.row] = (snap.value! as AnyObject).description}
+        let defaultPlace4 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("d4amount")
+        defaultPlace4.observe(.value) { (snap: DataSnapshot) in self.d4amount[indexPath.row] = (snap.value! as AnyObject).description}
+        let defaultPlace5 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("de1amount")
+        defaultPlace5.observe(.value) { (snap: DataSnapshot) in self.de1amount[indexPath.row] = (snap.value! as AnyObject).description}
+        let defaultPlace6 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("de2amount")
+        defaultPlace6.observe(.value) { (snap: DataSnapshot) in self.de2amount[indexPath.row] = (snap.value! as AnyObject).description}
+        let defaultPlace7 = self.DBRef.child("table/order").child(self.hogearray[indexPath.row]).child("de3amount")
+        defaultPlace7.observe(.value) { (snap: DataSnapshot) in self.de3amount[indexPath.row] = (snap.value! as AnyObject).description}
         
-        cell.textLabel!.text = "\(String(describing: self.time[indexPath.row])) Table\(String(describing:self.hogearray[indexPath.row])) ドリンクA:\(String(describing: self.d1amount[indexPath.row])) デザートA:\(String(describing: self.de1amount[indexPath.row]))"
+        cell.textLabel!.text = "\(String(describing: self.time[indexPath.row])) Table\(String(describing:self.hogearray[indexPath.row])) コーヒー:\(String(describing: self.d1amount[indexPath.row])) ティー:\(String(describing: self.d2amount[indexPath.row])) ホワイト:\(String(describing: self.d3amount[indexPath.row])) パイナップル:\(String(describing: self.d4amount[indexPath.row]))   リンゴ:\(String(describing: self.de1amount[indexPath.row])) みかん:\(String(describing: self.de2amount[indexPath.row])) コーヒーゼリー:\(String(describing: self.de3amount[indexPath.row]))"
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 20)
         
         return cell
     }

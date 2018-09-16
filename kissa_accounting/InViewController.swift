@@ -1,25 +1,25 @@
 //
-//  ViewController.swift
+//  InViewController.swift
 //  kissa_accounting
 //
-//  Created by Kei Kawamura on 2018/09/09.
+//  Created by Kei Kawamura on 2018/09/16.
 //  Copyright © 2018年 Kei Kawamura. All rights reserved.
 //
 
 import UIKit
 import Firebase
-class ViewController: UIViewController ,UICollectionViewDataSource,
+class InViewController: UIViewController ,UICollectionViewDataSource,
 UICollectionViewDelegate {
     
-    let number = ["101","102","103","104","105","106","107","108","109","110"]
+    let number = ["001","002","003","004","005","006","007","008","009","010"]
     var tablenumber : String?
     // インスタンス変数
     var DBRef:DatabaseReference!
-   
+    
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
-        let Cell:UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+        let Cell:UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "InCell", for: indexPath)
         let tablelabel = Cell.contentView.viewWithTag(1) as! UILabel
         let b1amountlabel = Cell.contentView.viewWithTag(2) as! UILabel
         let b2amountlabel = Cell.contentView.viewWithTag(3) as! UILabel
@@ -27,12 +27,15 @@ UICollectionViewDelegate {
         let d2amountlabel = Cell.contentView.viewWithTag(5) as! UILabel
         let d3amountlabel = Cell.contentView.viewWithTag(6) as! UILabel
         let d4amountlabel = Cell.contentView.viewWithTag(7) as! UILabel
+        let de1amountlabel = Cell.contentView.viewWithTag(8) as! UILabel
+        let de2amountlabel = Cell.contentView.viewWithTag(9) as! UILabel
+        let de3amountlabel = Cell.contentView.viewWithTag(10) as! UILabel
         tablelabel.text = "Table" + number[indexPath.row]
         
         //注文数同期
-        let defaultPlace = DBRef.child("table/order").child(number[indexPath.row]).child("b3amount")
+        let defaultPlace = DBRef.child("table/order").child(number[indexPath.row]).child("b1amount")
         defaultPlace.observe(.value) { (snap: DataSnapshot) in b1amountlabel.text = (snap.value! as AnyObject).description}
-        let defaultPlace1 = DBRef.child("table/order").child(number[indexPath.row]).child("b4amount")
+        let defaultPlace1 = DBRef.child("table/order").child(number[indexPath.row]).child("b2amount")
         defaultPlace1.observe(.value) { (snap: DataSnapshot) in b2amountlabel.text = (snap.value! as AnyObject).description}
         let defaultPlace2 = DBRef.child("table/order").child(number[indexPath.row]).child("d1amount")
         defaultPlace2.observe(.value) { (snap: DataSnapshot) in d1amountlabel.text = (snap.value! as AnyObject).description}
@@ -42,6 +45,12 @@ UICollectionViewDelegate {
         defaultPlace4.observe(.value) { (snap: DataSnapshot) in d3amountlabel.text = (snap.value! as AnyObject).description}
         let defaultPlace5 = DBRef.child("table/order").child(number[indexPath.row]).child("d4amount")
         defaultPlace5.observe(.value) { (snap: DataSnapshot) in d4amountlabel.text = (snap.value! as AnyObject).description}
+        let defaultPlace6 = DBRef.child("table/order").child(number[indexPath.row]).child("de1amount")
+        defaultPlace6.observe(.value) { (snap: DataSnapshot) in de1amountlabel.text = (snap.value! as AnyObject).description}
+        let defaultPlace7 = DBRef.child("table/order").child(number[indexPath.row]).child("de2amount")
+        defaultPlace7.observe(.value) { (snap: DataSnapshot) in de2amountlabel.text = (snap.value! as AnyObject).description}
+        let defaultPlace8 = DBRef.child("table/order").child(number[indexPath.row]).child("de3amount")
+        defaultPlace8.observe(.value) { (snap: DataSnapshot) in de3amountlabel.text = (snap.value! as AnyObject).description}
         
         //満席表示
         var status : String?
@@ -106,4 +115,3 @@ UICollectionViewDelegate {
         // Dispose of any resources that can be recreated.
     }
 }
-

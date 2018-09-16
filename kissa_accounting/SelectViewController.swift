@@ -11,6 +11,9 @@ import UIKit
 class SelectViewController : UIViewController{
     
     
+    @IBAction func toInAccounting(_ sender: Any) {
+        performSegue(withIdentifier: "toinaccounting", sender: nil)
+    }
     @IBAction func toAccounting(_ sender: Any) {
         performSegue(withIdentifier: "toaccounting", sender: nil)
     }
