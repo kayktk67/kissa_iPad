@@ -78,8 +78,8 @@ class DDOrderListViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let alertController = UIAlertController(title: "調理済み",message: "", preferredStyle: UIAlertControllerStyle.alert)
-        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default){ (action: UIAlertAction) in
+        let alertController = UIAlertController(title: "調理済み",message: "", preferredStyle: UIAlertController.Style.alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default){ (action: UIAlertAction) in
             self.DBRef.child("table/ddstatus").child(self.hogearray[indexPath.row]).setValue(1)
             var status : String?
             var intstatus : Int?
@@ -93,7 +93,7 @@ class DDOrderListViewController: UIViewController, UITableViewDelegate, UITableV
                 }
             })
         }
-        let cancelButton = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler: nil)
+        let cancelButton = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler: nil)
         
         alertController.addAction(okAction)
         alertController.addAction(cancelButton)
