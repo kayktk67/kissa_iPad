@@ -7,15 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA00E618215F5E0000CD18DE /* CompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00E617215F5E0000CD18DE /* CompleteViewController.swift */; };
 		AA28570A2145F2A2008DD8B1 /* SelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2857092145F2A2008DD8B1 /* SelectViewController.swift */; };
-		AA28570C21460E8E008DD8B1 /* OrderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA28570B21460E8E008DD8B1 /* OrderListViewController.swift */; };
 		AA6B2CF0214431260096A24E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6B2CEF214431260096A24E /* AppDelegate.swift */; };
 		AA6B2CF2214431260096A24E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6B2CF1214431260096A24E /* ViewController.swift */; };
 		AA6B2CF5214431260096A24E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA6B2CF3214431260096A24E /* Main.storyboard */; };
 		AA6B2CF7214431270096A24E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA6B2CF6214431270096A24E /* Assets.xcassets */; };
 		AA6B2CFA214431270096A24E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA6B2CF8214431270096A24E /* LaunchScreen.storyboard */; };
 		AA6B2D022144317C0096A24E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA6B2D012144317C0096A24E /* GoogleService-Info.plist */; };
-		AAED2968214D142500FA7A0D /* DDOrderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAED2967214D142500FA7A0D /* DDOrderListViewController.swift */; };
 		AAED2976214E63FF00FA7A0D /* InViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAED2975214E63FF00FA7A0D /* InViewController.swift */; };
 		D9232FF34F5179E07FFDBFFE /* Pods_kissa_accounting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D4599935B61EA43CA29A8B9 /* Pods_kissa_accounting.framework */; };
 /* End PBXBuildFile section */
@@ -24,8 +23,8 @@
 		42D64E8960358071C727D4AD /* Pods-kissa_accounting.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kissa_accounting.debug.xcconfig"; path = "Pods/Target Support Files/Pods-kissa_accounting/Pods-kissa_accounting.debug.xcconfig"; sourceTree = "<group>"; };
 		68686639555A14A6602EAB62 /* Pods-kissa_accounting.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kissa_accounting.release.xcconfig"; path = "Pods/Target Support Files/Pods-kissa_accounting/Pods-kissa_accounting.release.xcconfig"; sourceTree = "<group>"; };
 		6D4599935B61EA43CA29A8B9 /* Pods_kissa_accounting.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_kissa_accounting.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA00E617215F5E0000CD18DE /* CompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteViewController.swift; sourceTree = "<group>"; };
 		AA2857092145F2A2008DD8B1 /* SelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectViewController.swift; sourceTree = "<group>"; };
-		AA28570B21460E8E008DD8B1 /* OrderListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListViewController.swift; sourceTree = "<group>"; };
 		AA6B2CEC214431260096A24E /* kissa_accounting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kissa_accounting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA6B2CEF214431260096A24E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AA6B2CF1214431260096A24E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -34,7 +33,6 @@
 		AA6B2CF9214431270096A24E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AA6B2CFB214431270096A24E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA6B2D012144317C0096A24E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		AAED2967214D142500FA7A0D /* DDOrderListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDOrderListViewController.swift; sourceTree = "<group>"; };
 		AAED2975214E63FF00FA7A0D /* InViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,8 +80,7 @@
 				AA6B2CEF214431260096A24E /* AppDelegate.swift */,
 				AAED2975214E63FF00FA7A0D /* InViewController.swift */,
 				AA6B2CF1214431260096A24E /* ViewController.swift */,
-				AA28570B21460E8E008DD8B1 /* OrderListViewController.swift */,
-				AAED2967214D142500FA7A0D /* DDOrderListViewController.swift */,
+				AA00E617215F5E0000CD18DE /* CompleteViewController.swift */,
 				AA6B2CF3214431260096A24E /* Main.storyboard */,
 				AA2857092145F2A2008DD8B1 /* SelectViewController.swift */,
 				AA6B2CF6214431270096A24E /* Assets.xcassets */,
@@ -222,9 +219,8 @@
 				AA28570A2145F2A2008DD8B1 /* SelectViewController.swift in Sources */,
 				AAED2976214E63FF00FA7A0D /* InViewController.swift in Sources */,
 				AA6B2CF2214431260096A24E /* ViewController.swift in Sources */,
-				AAED2968214D142500FA7A0D /* DDOrderListViewController.swift in Sources */,
+				AA00E618215F5E0000CD18DE /* CompleteViewController.swift in Sources */,
 				AA6B2CF0214431260096A24E /* AppDelegate.swift in Sources */,
-				AA28570C21460E8E008DD8B1 /* OrderListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

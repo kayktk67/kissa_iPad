@@ -10,17 +10,18 @@ import Foundation
 import UIKit
 class SelectViewController : UIViewController{
     
-    
     @IBAction func toInAccounting(_ sender: Any) {
         performSegue(withIdentifier: "toinaccounting", sender: nil)
     }
     @IBAction func toAccounting(_ sender: Any) {
         performSegue(withIdentifier: "toaccounting", sender: nil)
     }
+    @IBAction func toComplete(_ sender: Any) {
+        performSegue(withIdentifier: "tocompleteviewcontroller", sender: nil)
+    }
     @IBAction func toOrderList(_ sender: Any) {
         performSegue(withIdentifier: "toorderlist", sender: nil)
     }
-    
     @IBAction func toDDOrderList(_ sender: Any) {
         performSegue(withIdentifier: "toddorderlist", sender: nil)
     }
