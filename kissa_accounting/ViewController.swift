@@ -113,7 +113,7 @@ UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let alertController = UIAlertController(title: "会計処理",message: "実行しますか？", preferredStyle: UIAlertController.Style.alert)
+        let alertController = UIAlertController(title: "完了処理",message: "実行しますか？", preferredStyle: UIAlertController.Style.alert)
         let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default){ (action: UIAlertAction) in
             self.DBRef.child("table/order").child(self.number[indexPath.row]).setValue(["b1amount":0,"b2amount":0,"b3amount":0,"b4amount":0,"s1amount":0,"s2amount":0,"s3amount":0,"d1amount":0,"d2amount":0,"d3amount":0,"d4amount":0,"de1amount":0,"de2amount":0,"de3amount":0,"time":0])
             self.DBRef.child("table/status").child(self.number[indexPath.row]).setValue(0)
@@ -125,6 +125,7 @@ UICollectionViewDelegate {
             var hogekey : String?
             let defaultPlace = self.DBRef.child("table/orderkey").child(self.number[indexPath.row])
             defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in hogekey = (snapshot.value! as AnyObject).description
+                self.DBRef.child("todata").child(hogekey!).updateChildValues(["completetime":ServerValue.timestamp()])
                 self.DBRef.child("table/orderorder").child(hogekey!).setValue(nil)
                 self.DBRef.child("table/orderkey").child(self.number[indexPath.row]).setValue(nil)
             })

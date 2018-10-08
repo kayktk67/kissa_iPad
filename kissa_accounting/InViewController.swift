@@ -11,7 +11,7 @@ import Firebase
 class InViewController: UIViewController ,UICollectionViewDataSource,
 UICollectionViewDelegate {
     
-    let number = ["001","002","003","004","005","006","007","008","009","010"]
+    let number = ["001","002","003","004","005","006","007","008","009","010","011","012","013","014","015"]
     var tablenumber : String?
     // インスタンス変数
     var DBRef:DatabaseReference!
@@ -21,7 +21,6 @@ UICollectionViewDelegate {
     var intstatus = Array(repeating: 0, count: 20)
     
     var b1amount = Array(repeating: "0", count: 20)
-    var b2amount = Array(repeating: "0", count: 20)
     var s1amount = Array(repeating: "0", count: 20)
     var s2amount = Array(repeating: "0", count: 20)
     var s3amount = Array(repeating: "0", count: 20)
@@ -41,7 +40,6 @@ UICollectionViewDelegate {
         let tablelabel = Cell.contentView.viewWithTag(1) as! UILabel
         let timelabel = Cell.contentView.viewWithTag(2) as! UILabel
         let b1amountlabel = Cell.contentView.viewWithTag(3) as! UILabel
-        let b2amountlabel = Cell.contentView.viewWithTag(4) as! UILabel
         let s1amountlabel = Cell.contentView.viewWithTag(12) as! UILabel
         let s2amountlabel = Cell.contentView.viewWithTag(13) as! UILabel
         let s3amountlabel = Cell.contentView.viewWithTag(14) as! UILabel
@@ -54,7 +52,6 @@ UICollectionViewDelegate {
         let de3amountlabel = Cell.contentView.viewWithTag(11) as! UILabel
         tablelabel.text = "Table" + number[indexPath.row]
         b1amountlabel.text =  self.b1amount[indexPath.row]
-        b2amountlabel.text =  self.b2amount[indexPath.row]
         s1amountlabel.text =  self.s1amount[indexPath.row]
         s2amountlabel.text =  self.s2amount[indexPath.row]
         s3amountlabel.text =  self.s3amount[indexPath.row]
@@ -95,32 +92,9 @@ UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let alertController = UIAlertController(title: "会計処理",message: "実行しますか？", preferredStyle: UIAlertController.Style.alert)
-        let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default){ (action: UIAlertAction) in
-            self.DBRef.child("table/order").child(self.number[indexPath.row]).setValue(["b1amount":0,"b2amount":0,"b3amount":0,"b4amount":0,"s1amount":0,"s2amount":0,"s3amount":0,"d1amount":0,"d2amount":0,"d3amount":0,"d4amount":0,"de1amount":0,"de2amount":0,"de3amount":0,"time":0])
-            self.DBRef.child("table/status").child(self.number[indexPath.row]).setValue(0)
-            self.DBRef.child("table/bstatus").child(self.number[indexPath.row]).setValue(0)
-            self.DBRef.child("table/tbstatus").child(self.number[indexPath.row]).setValue(0)
-            self.DBRef.child("table/sstatus").child(self.number[indexPath.row]).setValue(0)
-            self.DBRef.child("table/dstatus").child(self.number[indexPath.row]).setValue(0)
-            self.DBRef.child("table/destatus").child(self.number[indexPath.row]).setValue(0)
-            var hogekey : String?
-            let defaultPlace = self.DBRef.child("table/orderkey").child(self.number[indexPath.row])
-            defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in hogekey = (snapshot.value! as AnyObject).description
-                self.DBRef.child("table/orderorder").child(hogekey!).setValue(nil)
-                self.DBRef.child("table/orderkey").child(self.number[indexPath.row]).setValue(nil)
-            })
-            self.collectionView.reloadData()
-        }
-        let cancelButton = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler: nil)
-        
-        alertController.addAction(okAction)
-        alertController.addAction(cancelButton)
-        
-        present(alertController,animated: true,completion: nil)
+        self.tablenumber = number[indexPath.row]
+        performSegue(withIdentifier: "toinaccountingfinish", sender: nil)
     }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -136,7 +110,7 @@ UICollectionViewDelegate {
     }
     
     @objc func reloadData(_ sender: Timer) {
-        for i in 0..<10{
+        for i in 0..<15{
         //席ステータス取得
             let defaultPlace0 = DBRef.child("table/status").child(number[i])
             defaultPlace0.observeSingleEvent(of: .value, with: { (snapshot) in self.status[i] = (snapshot.value! as AnyObject).description
@@ -148,8 +122,6 @@ UICollectionViewDelegate {
         })
         let defaultPlace = DBRef.child("table/order").child(number[i]).child("b1amount")
         defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in self.b1amount[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace1 = DBRef.child("table/order").child(number[i]).child("b2amount")
-        defaultPlace1.observeSingleEvent(of: .value, with: { (snapshot) in self.b2amount[i] = (snapshot.value! as AnyObject).description})
         let defaultPlace9 = DBRef.child("table/order").child(number[i]).child("s1amount")
         defaultPlace9.observeSingleEvent(of: .value, with: { (snapshot) in self.s1amount[i] = (snapshot.value! as AnyObject).description})
         let defaultPlace10 = DBRef.child("table/order").child(number[i]).child("s2amount")
@@ -173,6 +145,20 @@ UICollectionViewDelegate {
         }
         
         self.collectionView.reloadData()
+    }
+    
+    //次のビューに渡す値を設定
+    override func  prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let nextVC = segue.destination as! InFinishViewController
+        let _ = nextVC.view
+        nextVC.tableNumber = tablenumber
+        nextVC.tableNumberLabel.text = "Table\(tablenumber!)"
+        nextVC.BSetAccountingAmount.text = "0"
+        nextVC.SSetAccountingAmount.text = "0"
+        nextVC.BSSetAccountingAmount.text = "0"
+        nextVC.SumMoneyAmount.text = "0"
+        nextVC.GetMoneyAmount.text = "0"
+        nextVC.BackMoneyAmount.text = "0"
     }
     
     override func didReceiveMemoryWarning() {

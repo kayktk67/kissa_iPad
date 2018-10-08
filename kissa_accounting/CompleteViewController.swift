@@ -11,8 +11,7 @@ import Firebase
 class CompleteViewController: UIViewController ,UICollectionViewDataSource,
 UICollectionViewDelegate {
     
-    let number = ["001","002","003","004","005","006","007","008","009","010"]
-    var tablenumber : String?
+    let number = ["001","002","003","004","005","006","007","008","009","010","011","012","013","014","015"]
     // インスタンス変数
     var DBRef:DatabaseReference!
     var dateUnix: TimeInterval = 0
@@ -24,7 +23,6 @@ UICollectionViewDelegate {
     var dstatus = Array(repeating: "0", count: 20)
     var destatus = Array(repeating: "0", count: 20)
     var b1amount = Array(repeating: "0", count: 20)
-    var b2amount = Array(repeating: "0", count: 20)
     var s1amount = Array(repeating: "0", count: 20)
     var s2amount = Array(repeating: "0", count: 20)
     var s3amount = Array(repeating: "0", count: 20)
@@ -44,7 +42,6 @@ UICollectionViewDelegate {
         let tablelabel = Cell.contentView.viewWithTag(1) as! UILabel
         let timelabel = Cell.contentView.viewWithTag(2) as! UILabel
         let b1amountlabel = Cell.contentView.viewWithTag(3) as! UILabel
-        let b2amountlabel = Cell.contentView.viewWithTag(4) as! UILabel
         let s1amountlabel = Cell.contentView.viewWithTag(12) as! UILabel
         let s2amountlabel = Cell.contentView.viewWithTag(13) as! UILabel
         let s3amountlabel = Cell.contentView.viewWithTag(14) as! UILabel
@@ -63,7 +60,6 @@ UICollectionViewDelegate {
         
         tablelabel.text = "Table" + number[indexPath.row]
         b1amountlabel.text =  self.b1amount[indexPath.row]
-        b2amountlabel.text =  self.b2amount[indexPath.row]
         s1amountlabel.text =  self.s1amount[indexPath.row]
         s2amountlabel.text =  self.s2amount[indexPath.row]
         s3amountlabel.text =  self.s3amount[indexPath.row]
@@ -137,8 +133,8 @@ UICollectionViewDelegate {
             let defaultPlace = self.DBRef.child("table/orderkey").child(self.number[indexPath.row])
             defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in
                 hogekey = (snapshot.value! as AnyObject).description
+                self.DBRef.child("indata").child(hogekey!).updateChildValues(["completetime":ServerValue.timestamp()])
                 self.DBRef.child("table/orderorder").child(hogekey!).setValue(nil)
-                self.DBRef.child("table/orderkey").child(self.number[indexPath.row]).setValue(nil)
             })
             self.collectionView.reloadData()
         }
@@ -166,7 +162,7 @@ UICollectionViewDelegate {
     }
     
     @objc func reloadData(_ sender: Timer) {
-        for i in 0..<10{
+        for i in 0..<15{
             //席ステータス取得
             let defaultPlace0 = DBRef.child("table/status").child(number[i])
             defaultPlace0.observeSingleEvent(of: .value, with: { (snapshot) in self.status[i] = (snapshot.value! as AnyObject).description
@@ -191,8 +187,6 @@ UICollectionViewDelegate {
             })
             let defaultPlace = DBRef.child("table/order").child(number[i]).child("b1amount")
             defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in self.b1amount[i] = (snapshot.value! as AnyObject).description})
-            let defaultPlace1 = DBRef.child("table/order").child(number[i]).child("b2amount")
-            defaultPlace1.observeSingleEvent(of: .value, with: { (snapshot) in self.b2amount[i] = (snapshot.value! as AnyObject).description})
             let defaultPlace9 = DBRef.child("table/order").child(number[i]).child("s1amount")
             defaultPlace9.observeSingleEvent(of: .value, with: { (snapshot) in self.s1amount[i] = (snapshot.value! as AnyObject).description})
             let defaultPlace10 = DBRef.child("table/order").child(number[i]).child("s2amount")
