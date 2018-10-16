@@ -19,6 +19,7 @@ UICollectionViewDelegate {
     var hogetime = Array(repeating: "0", count: 20)
     var status = Array(repeating: "0", count: 20)
     var intstatus = Array(repeating: 0, count: 20)
+    var hogetime1: String?
     
     var b1amount = Array(repeating: "0", count: 20)
     var s1amount = Array(repeating: "0", count: 20)
@@ -28,6 +29,10 @@ UICollectionViewDelegate {
     var d2amount = Array(repeating: "0", count: 20)
     var d3amount = Array(repeating: "0", count: 20)
     var d4amount = Array(repeating: "0", count: 20)
+    var dx1amount = Array(repeating: "0", count: 20)
+    var dx2amount = Array(repeating: "0", count: 20)
+    var dx3amount = Array(repeating: "0", count: 20)
+    var dx4amount = Array(repeating: "0", count: 20)
     var de1amount = Array(repeating: "0", count: 20)
     var de2amount = Array(repeating: "0", count: 20)
     var de3amount = Array(repeating: "0", count: 20)
@@ -40,16 +45,20 @@ UICollectionViewDelegate {
         let tablelabel = Cell.contentView.viewWithTag(1) as! UILabel
         let timelabel = Cell.contentView.viewWithTag(2) as! UILabel
         let b1amountlabel = Cell.contentView.viewWithTag(3) as! UILabel
-        let s1amountlabel = Cell.contentView.viewWithTag(12) as! UILabel
-        let s2amountlabel = Cell.contentView.viewWithTag(13) as! UILabel
-        let s3amountlabel = Cell.contentView.viewWithTag(14) as! UILabel
-        let d1amountlabel = Cell.contentView.viewWithTag(5) as! UILabel
-        let d2amountlabel = Cell.contentView.viewWithTag(6) as! UILabel
-        let d3amountlabel = Cell.contentView.viewWithTag(7) as! UILabel
-        let d4amountlabel = Cell.contentView.viewWithTag(8) as! UILabel
-        let de1amountlabel = Cell.contentView.viewWithTag(9) as! UILabel
-        let de2amountlabel = Cell.contentView.viewWithTag(10) as! UILabel
-        let de3amountlabel = Cell.contentView.viewWithTag(11) as! UILabel
+        let s1amountlabel = Cell.contentView.viewWithTag(4) as! UILabel
+        let s2amountlabel = Cell.contentView.viewWithTag(5) as! UILabel
+        let s3amountlabel = Cell.contentView.viewWithTag(6) as! UILabel
+        let d1amountlabel = Cell.contentView.viewWithTag(7) as! UILabel
+        let d2amountlabel = Cell.contentView.viewWithTag(8) as! UILabel
+        let d3amountlabel = Cell.contentView.viewWithTag(9) as! UILabel
+        let d4amountlabel = Cell.contentView.viewWithTag(10) as! UILabel
+        let dx1amountlabel = Cell.contentView.viewWithTag(11) as! UILabel
+        let dx2amountlabel = Cell.contentView.viewWithTag(12) as! UILabel
+        let dx3amountlabel = Cell.contentView.viewWithTag(13) as! UILabel
+        let dx4amountlabel = Cell.contentView.viewWithTag(14) as! UILabel
+        let de1amountlabel = Cell.contentView.viewWithTag(15) as! UILabel
+        let de2amountlabel = Cell.contentView.viewWithTag(16) as! UILabel
+        let de3amountlabel = Cell.contentView.viewWithTag(17) as! UILabel
         tablelabel.text = "Table" + number[indexPath.row]
         b1amountlabel.text =  self.b1amount[indexPath.row]
         s1amountlabel.text =  self.s1amount[indexPath.row]
@@ -59,6 +68,10 @@ UICollectionViewDelegate {
         d2amountlabel.text =  self.d2amount[indexPath.row]
         d3amountlabel.text =  self.d3amount[indexPath.row]
         d4amountlabel.text =  self.d4amount[indexPath.row]
+        dx1amountlabel.text =  self.dx1amount[indexPath.row]
+        dx2amountlabel.text =  self.dx2amount[indexPath.row]
+        dx3amountlabel.text =  self.dx3amount[indexPath.row]
+        dx4amountlabel.text =  self.dx4amount[indexPath.row]
         de1amountlabel.text =  self.de1amount[indexPath.row]
         de2amountlabel.text =  self.de2amount[indexPath.row]
         de3amountlabel.text =  self.de3amount[indexPath.row]
@@ -93,6 +106,9 @@ UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.tablenumber = number[indexPath.row]
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        self.hogetime1 = formatter.string(from: Date())
         performSegue(withIdentifier: "toinaccountingfinish", sender: nil)
     }
     
@@ -136,6 +152,14 @@ UICollectionViewDelegate {
         defaultPlace4.observeSingleEvent(of: .value, with: { (snapshot) in self.d3amount[i] = (snapshot.value! as AnyObject).description})
         let defaultPlace5 = DBRef.child("table/order").child(number[i]).child("d4amount")
         defaultPlace5.observeSingleEvent(of: .value, with: { (snapshot) in self.d4amount[i] = (snapshot.value! as AnyObject).description})
+        let defaultPlace12 = DBRef.child("table/order").child(number[i]).child("dx1amount")
+        defaultPlace12.observeSingleEvent(of: .value, with: { (snapshot) in self.dx1amount[i] = (snapshot.value! as AnyObject).description})
+        let defaultPlace13 = DBRef.child("table/order").child(number[i]).child("dx2amount")
+        defaultPlace13.observeSingleEvent(of: .value, with: { (snapshot) in self.dx2amount[i] = (snapshot.value! as AnyObject).description})
+        let defaultPlace14 = DBRef.child("table/order").child(number[i]).child("dx3amount")
+        defaultPlace14.observeSingleEvent(of: .value, with: { (snapshot) in self.dx3amount[i] = (snapshot.value! as AnyObject).description})
+        let defaultPlace15 = DBRef.child("table/order").child(number[i]).child("dx4amount")
+        defaultPlace15.observeSingleEvent(of: .value, with: { (snapshot) in self.dx4amount[i] = (snapshot.value! as AnyObject).description})
         let defaultPlace6 = DBRef.child("table/order").child(number[i]).child("de1amount")
         defaultPlace6.observeSingleEvent(of: .value, with: { (snapshot) in self.de1amount[i] = (snapshot.value! as AnyObject).description})
         let defaultPlace7 = DBRef.child("table/order").child(number[i]).child("de2amount")
@@ -159,6 +183,10 @@ UICollectionViewDelegate {
         nextVC.SumMoneyAmount.text = "0"
         nextVC.GetMoneyAmount.text = "0"
         nextVC.BackMoneyAmount.text = "0"
+        nextVC.C1Amount.text = "0"
+        nextVC.C3Amount.text = "0"
+        nextVC.C10Amount.text = "0"
+        nextVC.hogetime = hogetime1!
     }
     
     override func didReceiveMemoryWarning() {

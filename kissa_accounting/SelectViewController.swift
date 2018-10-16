@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SwiftyDropbox
 class SelectViewController : UIViewController{
     
     @IBAction func toInAccounting(_ sender: Any) {
@@ -25,6 +26,32 @@ class SelectViewController : UIViewController{
     @IBAction func toDDOrderList(_ sender: Any) {
         performSegue(withIdentifier: "toddorderlist", sender: nil)
     }
+    
+    @IBAction func dropbox(_ sender: Any) {
+        DropboxClientsManager.authorizeFromController(UIApplication.shared,controller: self,openURL: { (url: URL) -> Void in
+            UIApplication.shared.openURL(url)
+        })
+    }
+    
+    @IBAction func upload(_ sender: Any) {
+        guard let client = DropboxClientsManager.authorizedClient else {
+            return
+        }
+        let fileData = "testing data example".data(using: String.Encoding.utf8, allowLossyConversion: false)!
+        
+        _ = client.files.upload(path:"/Data/myUploadTestFile.txt", input: fileData)
+            .response { response, error in
+                if let response = response {
+                    print(response)
+                }else if let error = error {
+                    print(error)
+                }
+            }
+            .progress { progressData in
+                print(progressData)
+        }
+    }
+    
     
     
     override func viewDidLoad() {

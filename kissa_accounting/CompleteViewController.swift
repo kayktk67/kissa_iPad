@@ -21,6 +21,7 @@ UICollectionViewDelegate {
     var bstatus = Array(repeating: "0", count: 20)
     var sstatus = Array(repeating: "0", count: 20)
     var dstatus = Array(repeating: "0", count: 20)
+    var dxstatus = Array(repeating: "0", count: 20)
     var destatus = Array(repeating: "0", count: 20)
     var b1amount = Array(repeating: "0", count: 20)
     var s1amount = Array(repeating: "0", count: 20)
@@ -30,6 +31,10 @@ UICollectionViewDelegate {
     var d2amount = Array(repeating: "0", count: 20)
     var d3amount = Array(repeating: "0", count: 20)
     var d4amount = Array(repeating: "0", count: 20)
+    var dx1amount = Array(repeating: "0", count: 20)
+    var dx2amount = Array(repeating: "0", count: 20)
+    var dx3amount = Array(repeating: "0", count: 20)
+    var dx4amount = Array(repeating: "0", count: 20)
     var de1amount = Array(repeating: "0", count: 20)
     var de2amount = Array(repeating: "0", count: 20)
     var de3amount = Array(repeating: "0", count: 20)
@@ -49,6 +54,10 @@ UICollectionViewDelegate {
         let d2amountlabel = Cell.contentView.viewWithTag(6) as! UILabel
         let d3amountlabel = Cell.contentView.viewWithTag(7) as! UILabel
         let d4amountlabel = Cell.contentView.viewWithTag(8) as! UILabel
+        let dx1amountlabel = Cell.contentView.viewWithTag(15) as! UILabel
+        let dx2amountlabel = Cell.contentView.viewWithTag(16) as! UILabel
+        let dx3amountlabel = Cell.contentView.viewWithTag(17) as! UILabel
+        let dx4amountlabel = Cell.contentView.viewWithTag(18) as! UILabel
         let de1amountlabel = Cell.contentView.viewWithTag(9) as! UILabel
         let de2amountlabel = Cell.contentView.viewWithTag(10) as! UILabel
         let de3amountlabel = Cell.contentView.viewWithTag(11) as! UILabel
@@ -56,6 +65,7 @@ UICollectionViewDelegate {
         let BStatuslabel = Cell.contentView.viewWithTag(22) as! UILabel
         let SStatuslabel = Cell.contentView.viewWithTag(23) as! UILabel
         let DStatuslabel = Cell.contentView.viewWithTag(24) as! UILabel
+        let DXStatuslabel = Cell.contentView.viewWithTag(26) as! UILabel
         let DeStatuslabel = Cell.contentView.viewWithTag(25) as! UILabel
         
         tablelabel.text = "Table" + number[indexPath.row]
@@ -67,6 +77,10 @@ UICollectionViewDelegate {
         d2amountlabel.text =  self.d2amount[indexPath.row]
         d3amountlabel.text =  self.d3amount[indexPath.row]
         d4amountlabel.text =  self.d4amount[indexPath.row]
+        dx1amountlabel.text =  self.dx1amount[indexPath.row]
+        dx2amountlabel.text =  self.dx2amount[indexPath.row]
+        dx3amountlabel.text =  self.dx3amount[indexPath.row]
+        dx4amountlabel.text =  self.dx4amount[indexPath.row]
         de1amountlabel.text =  self.de1amount[indexPath.row]
         de2amountlabel.text =  self.de2amount[indexPath.row]
         de3amountlabel.text =  self.de3amount[indexPath.row]
@@ -92,21 +106,36 @@ UICollectionViewDelegate {
         }
         if Int(self.bstatus[indexPath.row]) == 1{
             BStatuslabel.backgroundColor = UIColor.magenta
+        }else if Int(self.bstatus[indexPath.row]) == 2{
+            BStatuslabel.backgroundColor = UIColor.cyan
         }else{
             BStatuslabel.backgroundColor = UIColor.white
         }
         if Int(self.sstatus[indexPath.row]) == 1{
             SStatuslabel.backgroundColor = UIColor.magenta
+        }else if Int(self.sstatus[indexPath.row]) == 2{
+            SStatuslabel.backgroundColor = UIColor.cyan
         }else{
             SStatuslabel.backgroundColor = UIColor.white
         }
         if Int(self.dstatus[indexPath.row]) == 1{
             DStatuslabel.backgroundColor = UIColor.magenta
+        }else if Int(self.dstatus[indexPath.row]) == 2{
+            DStatuslabel.backgroundColor = UIColor.cyan
         }else{
             DStatuslabel.backgroundColor = UIColor.white
         }
+        if Int(self.dxstatus[indexPath.row]) == 1{
+            DXStatuslabel.backgroundColor = UIColor.magenta
+        }else if Int(self.dxstatus[indexPath.row]) == 2{
+            DXStatuslabel.backgroundColor = UIColor.cyan
+        }else{
+            DXStatuslabel.backgroundColor = UIColor.white
+        }
         if Int(self.destatus[indexPath.row]) == 1{
             DeStatuslabel.backgroundColor = UIColor.magenta
+        }else if Int(self.destatus[indexPath.row]) == 2{
+            DeStatuslabel.backgroundColor = UIColor.cyan
         }else{
             DeStatuslabel.backgroundColor = UIColor.white
         }
@@ -127,6 +156,7 @@ UICollectionViewDelegate {
             self.DBRef.child("table/tbstatus").child(self.number[indexPath.row]).setValue(0)
             self.DBRef.child("table/sstatus").child(self.number[indexPath.row]).setValue(0)
             self.DBRef.child("table/dstatus").child(self.number[indexPath.row]).setValue(0)
+            self.DBRef.child("table/dxstatus").child(self.number[indexPath.row]).setValue(0)
             self.DBRef.child("table/destatus").child(self.number[indexPath.row]).setValue(0)
             //オーダーキーのリセット
             var hogekey : String?
@@ -146,6 +176,51 @@ UICollectionViewDelegate {
         present(alertController,animated: true,completion: nil)
     }
     
+    @IBAction func BStatus(sender: UIButton) {
+        if let indexPath = collectionView.indexPath(for: sender.superview!.superview as! UICollectionViewCell) {
+            if Int(self.bstatus[indexPath.row]) == 1{
+            self.DBRef.child("table/bstatus").child(self.number[indexPath.row]).setValue(2)
+            }else if Int(self.bstatus[indexPath.row]) == 2{
+            self.DBRef.child("table/bstatus").child(self.number[indexPath.row]).setValue(1)
+            }
+        }
+    }
+    @IBAction func SStatus(sender: UIButton) {
+        if let indexPath = collectionView.indexPath(for: sender.superview!.superview as! UICollectionViewCell) {
+            if Int(self.sstatus[indexPath.row]) == 1{
+                self.DBRef.child("table/sstatus").child(self.number[indexPath.row]).setValue(2)
+            }else if Int(self.sstatus[indexPath.row]) == 2{
+                self.DBRef.child("table/sstatus").child(self.number[indexPath.row]).setValue(1)
+            }
+        }
+    }
+    @IBAction func DStatus(sender: UIButton) {
+        if let indexPath = collectionView.indexPath(for: sender.superview!.superview as! UICollectionViewCell) {
+            if Int(self.dstatus[indexPath.row]) == 1{
+                self.DBRef.child("table/dstatus").child(self.number[indexPath.row]).setValue(2)
+            }else if Int(self.dstatus[indexPath.row]) == 2{
+                self.DBRef.child("table/dstatus").child(self.number[indexPath.row]).setValue(1)
+            }
+        }
+    }
+    @IBAction func DXStatus(sender: UIButton) {
+        if let indexPath = collectionView.indexPath(for: sender.superview!.superview as! UICollectionViewCell) {
+            if Int(self.dxstatus[indexPath.row]) == 1{
+                self.DBRef.child("table/dxstatus").child(self.number[indexPath.row]).setValue(2)
+            }else if Int(self.dxstatus[indexPath.row]) == 2{
+                self.DBRef.child("table/dxstatus").child(self.number[indexPath.row]).setValue(1)
+            }
+        }
+    }
+    @IBAction func DeStatus(sender: UIButton) {
+        if let indexPath = collectionView.indexPath(for: sender.superview!.superview as! UICollectionViewCell) {
+            if Int(self.destatus[indexPath.row]) == 1{
+                self.DBRef.child("table/destatus").child(self.number[indexPath.row]).setValue(2)
+            }else if Int(self.destatus[indexPath.row]) == 2{
+                self.DBRef.child("table/destatus").child(self.number[indexPath.row]).setValue(1)
+            }
+        }
+    }
     
     
     override func viewDidLoad() {
@@ -178,6 +253,8 @@ UICollectionViewDelegate {
             defaultPlace02.observeSingleEvent(of: .value, with: { (snapshot) in self.sstatus[i] = (snapshot.value! as AnyObject).description})
             let defaultPlace03 = DBRef.child("table/dstatus").child(self.number[i])
             defaultPlace03.observeSingleEvent(of: .value, with: { (snapshot) in self.dstatus[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace05 = DBRef.child("table/dxstatus").child(self.number[i])
+            defaultPlace05.observeSingleEvent(of: .value, with: { (snapshot) in self.dxstatus[i] = (snapshot.value! as AnyObject).description})
             let defaultPlace04 = DBRef.child("table/destatus").child(self.number[i])
             defaultPlace04.observeSingleEvent(of: .value, with: { (snapshot) in self.destatus[i] = (snapshot.value! as AnyObject).description})
             
@@ -201,6 +278,14 @@ UICollectionViewDelegate {
             defaultPlace4.observeSingleEvent(of: .value, with: { (snapshot) in self.d3amount[i] = (snapshot.value! as AnyObject).description})
             let defaultPlace5 = DBRef.child("table/order").child(number[i]).child("d4amount")
             defaultPlace5.observeSingleEvent(of: .value, with: { (snapshot) in self.d4amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace12 = DBRef.child("table/order").child(number[i]).child("dx1amount")
+            defaultPlace12.observeSingleEvent(of: .value, with: { (snapshot) in self.dx1amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace13 = DBRef.child("table/order").child(number[i]).child("dx2amount")
+            defaultPlace13.observeSingleEvent(of: .value, with: { (snapshot) in self.dx2amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace14 = DBRef.child("table/order").child(number[i]).child("dx3amount")
+            defaultPlace14.observeSingleEvent(of: .value, with: { (snapshot) in self.dx3amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace15 = DBRef.child("table/order").child(number[i]).child("dx4amount")
+            defaultPlace15.observeSingleEvent(of: .value, with: { (snapshot) in self.dx4amount[i] = (snapshot.value! as AnyObject).description})
             let defaultPlace6 = DBRef.child("table/order").child(number[i]).child("de1amount")
             defaultPlace6.observeSingleEvent(of: .value, with: { (snapshot) in self.de1amount[i] = (snapshot.value! as AnyObject).description})
             let defaultPlace7 = DBRef.child("table/order").child(number[i]).child("de2amount")

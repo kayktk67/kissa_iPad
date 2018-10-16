@@ -80,14 +80,14 @@
 			isa = PBXGroup;
 			children = (
 				AA6B2CEF214431260096A24E /* AppDelegate.swift */,
+				AA2857092145F2A2008DD8B1 /* SelectViewController.swift */,
+				AA6B2CF1214431260096A24E /* ViewController.swift */,
 				AAED2975214E63FF00FA7A0D /* InViewController.swift */,
 				AA43F6072168C5DA006362D2 /* InFinishViewController.swift */,
 				AA00E617215F5E0000CD18DE /* CompleteViewController.swift */,
-				AA6B2CF1214431260096A24E /* ViewController.swift */,
 				AA6B2CF3214431260096A24E /* Main.storyboard */,
-				AA2857092145F2A2008DD8B1 /* SelectViewController.swift */,
-				AA6B2CF6214431270096A24E /* Assets.xcassets */,
 				AA6B2CF8214431270096A24E /* LaunchScreen.storyboard */,
+				AA6B2CF6214431270096A24E /* Assets.xcassets */,
 				AA6B2CFB214431270096A24E /* Info.plist */,
 				AA6B2D012144317C0096A24E /* GoogleService-Info.plist */,
 			);
@@ -199,12 +199,16 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-kissa_accounting/Pods-kissa_accounting-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyDropbox/SwiftyDropbox.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyDropbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -373,7 +377,7 @@
 				DEVELOPMENT_TEAM = 63MASNSR4G;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = kissa_accounting/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -394,7 +398,7 @@
 				DEVELOPMENT_TEAM = 63MASNSR4G;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = kissa_accounting/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
