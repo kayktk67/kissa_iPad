@@ -16,6 +16,7 @@ UICollectionViewDelegate {
     var DBRef:DatabaseReference!
     var dateUnix: TimeInterval = 0
     var hogetime = Array(repeating: "0", count: 20)
+    var hogetime2 = Array(repeating: "0", count: 20)
     var status = Array(repeating: "0", count: 20)
     var intstatus = Array(repeating: 0, count: 20)
     var bstatus = Array(repeating: "0", count: 20)
@@ -28,7 +29,6 @@ UICollectionViewDelegate {
     var s2amount = Array(repeating: "0", count: 20)
     var s3amount = Array(repeating: "0", count: 20)
     var d1amount = Array(repeating: "0", count: 20)
-    var d2amount = Array(repeating: "0", count: 20)
     var d3amount = Array(repeating: "0", count: 20)
     var d4amount = Array(repeating: "0", count: 20)
     var dx1amount = Array(repeating: "0", count: 20)
@@ -38,6 +38,7 @@ UICollectionViewDelegate {
     var de1amount = Array(repeating: "0", count: 20)
     var de2amount = Array(repeating: "0", count: 20)
     var de3amount = Array(repeating: "0", count: 20)
+    var sbamount = Array(repeating: "0", count: 20)
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -51,7 +52,6 @@ UICollectionViewDelegate {
         let s2amountlabel = Cell.contentView.viewWithTag(13) as! UILabel
         let s3amountlabel = Cell.contentView.viewWithTag(14) as! UILabel
         let d1amountlabel = Cell.contentView.viewWithTag(5) as! UILabel
-        let d2amountlabel = Cell.contentView.viewWithTag(6) as! UILabel
         let d3amountlabel = Cell.contentView.viewWithTag(7) as! UILabel
         let d4amountlabel = Cell.contentView.viewWithTag(8) as! UILabel
         let dx1amountlabel = Cell.contentView.viewWithTag(15) as! UILabel
@@ -61,6 +61,7 @@ UICollectionViewDelegate {
         let de1amountlabel = Cell.contentView.viewWithTag(9) as! UILabel
         let de2amountlabel = Cell.contentView.viewWithTag(10) as! UILabel
         let de3amountlabel = Cell.contentView.viewWithTag(11) as! UILabel
+        let sbamountlabel = Cell.contentView.viewWithTag(6) as! UILabel
         let Statuslabel = Cell.contentView.viewWithTag(21) as! UILabel
         let BStatuslabel = Cell.contentView.viewWithTag(22) as! UILabel
         let SStatuslabel = Cell.contentView.viewWithTag(23) as! UILabel
@@ -69,12 +70,13 @@ UICollectionViewDelegate {
         let DeStatuslabel = Cell.contentView.viewWithTag(25) as! UILabel
         
         tablelabel.text = "Table" + number[indexPath.row]
+        timelabel.textAlignment = .right
+        sbamountlabel.text =  self.sbamount[indexPath.row]
         b1amountlabel.text =  self.b1amount[indexPath.row]
         s1amountlabel.text =  self.s1amount[indexPath.row]
         s2amountlabel.text =  self.s2amount[indexPath.row]
         s3amountlabel.text =  self.s3amount[indexPath.row]
         d1amountlabel.text =  self.d1amount[indexPath.row]
-        d2amountlabel.text =  self.d2amount[indexPath.row]
         d3amountlabel.text =  self.d3amount[indexPath.row]
         d4amountlabel.text =  self.d4amount[indexPath.row]
         dx1amountlabel.text =  self.dx1amount[indexPath.row]
@@ -88,12 +90,27 @@ UICollectionViewDelegate {
         if Int(self.hogetime[indexPath.row]) == 0 {
             timelabel.text = ""
         }else{
-            self.dateUnix = TimeInterval(self.hogetime[indexPath.row])!
+            if self.intstatus[indexPath.row] == 1 || self.intstatus[indexPath.row] == 2 || self.intstatus[indexPath.row] == 4{
+                self.dateUnix = TimeInterval(self.hogetime[indexPath.row])!
+                let hogedate = NSDate(timeIntervalSince1970: self.dateUnix/1000)
+                let formatter = DateFormatter()
+                formatter.dateFormat = "HH:mm:ss"
+                timelabel.text = formatter.string(from: hogedate as Date)
+            }else if self.intstatus[indexPath.row] == 3{
+            var calendar = Calendar.current
+            calendar.locale = Locale(identifier: "ja_JP")
+            self.dateUnix = TimeInterval(self.hogetime2[indexPath.row])!
             let hogedate = NSDate(timeIntervalSince1970: self.dateUnix/1000)
-            let formatter = DateFormatter()
-            formatter.dateFormat = "HH:mm:ss"
-            timelabel.text = formatter.string(from: hogedate as Date)
+            let time = Date().timeIntervalSince(hogedate as Date)
+            let formatter = DateComponentsFormatter()
+            formatter.calendar = calendar
+            formatter.unitsStyle = .positional
+            formatter.allowedUnits = [.day, .hour, .minute, .second]
+            formatter.zeroFormattingBehavior = [.dropLeading]
+            timelabel.text = formatter.string(from: time)!
+            }
         }
+        
         //満席表示
         if intstatus[indexPath.row] == 0{
             Statuslabel.backgroundColor = UIColor.white
@@ -102,6 +119,8 @@ UICollectionViewDelegate {
         }else if intstatus[indexPath.row] == 2{
             Statuslabel.backgroundColor = UIColor.magenta
         }else if intstatus[indexPath.row] == 3{
+            Statuslabel.backgroundColor = UIColor.red
+        }else if intstatus[indexPath.row] == 4{
             Statuslabel.backgroundColor = UIColor.cyan
         }
         if Int(self.bstatus[indexPath.row]) == 1{
@@ -142,16 +161,27 @@ UICollectionViewDelegate {
         return Cell
     }
     
-    
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         return number.count;
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if self.intstatus[indexPath.row] == 1 || self.intstatus[indexPath.row] == 2{
+            let alertController = UIAlertController(title: "配膳完了（デザート以外）",message: "タイマーセットしますか？", preferredStyle: UIAlertController.Style.alert)
+            let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default){ (action: UIAlertAction) in
+                self.DBRef.child("table/status").child(self.number[indexPath.row]).setValue(3)
+                self.DBRef.child("table/order").child(self.number[indexPath.row]).child("completetime").setValue(ServerValue.timestamp())
+            }
+            let cancelButton = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler: nil)
+            alertController.addAction(okAction)
+            alertController.addAction(cancelButton)
+            present(alertController,animated: true,completion: nil)
+            
+        }else if self.intstatus[indexPath.row] == 3{
         let alertController = UIAlertController(title: "配膳完了",message: "実行しますか？", preferredStyle: UIAlertController.Style.alert)
         let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default){ (action: UIAlertAction) in
-            self.DBRef.child("table/status").child(self.number[indexPath.row]).setValue(3)
+            self.DBRef.child("table/status").child(self.number[indexPath.row]).setValue(4)
             self.DBRef.child("table/bstatus").child(self.number[indexPath.row]).setValue(0)
             self.DBRef.child("table/tbstatus").child(self.number[indexPath.row]).setValue(0)
             self.DBRef.child("table/sstatus").child(self.number[indexPath.row]).setValue(0)
@@ -174,6 +204,7 @@ UICollectionViewDelegate {
         alertController.addAction(cancelButton)
         
         present(alertController,animated: true,completion: nil)
+        }
     }
     
     @IBAction func BStatus(sender: UIButton) {
@@ -228,7 +259,7 @@ UICollectionViewDelegate {
         //インスタンスを作成
         DBRef = Database.database().reference()
         Timer.scheduledTimer(
-            timeInterval: 2,
+            timeInterval: 1.0,
             target: self,
             selector: #selector(self.reloadData(_:)),
             userInfo: nil,
@@ -239,29 +270,29 @@ UICollectionViewDelegate {
     @objc func reloadData(_ sender: Timer) {
         for i in 0..<15{
             //席ステータス取得
-            let defaultPlace0 = DBRef.child("table/status").child(number[i])
-            defaultPlace0.observeSingleEvent(of: .value, with: { (snapshot) in self.status[i] = (snapshot.value! as AnyObject).description
-                self.intstatus[i] = Int(self.status[i])!
-            })
-            //席ステータス取得
             let defaultPlace00 = DBRef.child("table/status").child(number[i])
             defaultPlace00.observeSingleEvent(of: .value, with: { (snapshot) in self.status[i] = (snapshot.value! as AnyObject).description
                 self.intstatus[i] = Int(self.status[i])!})
-            let defaultPlace01 = DBRef.child("table/bstatus").child(self.number[i])
+            let defaultPlace01 = DBRef.child("table/bstatus").child(number[i])
             defaultPlace01.observeSingleEvent(of: .value, with: { (snapshot) in self.bstatus[i] = (snapshot.value! as AnyObject).description})
-            let defaultPlace02 = DBRef.child("table/sstatus").child(self.number[i])
+            let defaultPlace02 = DBRef.child("table/sstatus").child(number[i])
             defaultPlace02.observeSingleEvent(of: .value, with: { (snapshot) in self.sstatus[i] = (snapshot.value! as AnyObject).description})
-            let defaultPlace03 = DBRef.child("table/dstatus").child(self.number[i])
+            let defaultPlace03 = DBRef.child("table/dstatus").child(number[i])
             defaultPlace03.observeSingleEvent(of: .value, with: { (snapshot) in self.dstatus[i] = (snapshot.value! as AnyObject).description})
-            let defaultPlace05 = DBRef.child("table/dxstatus").child(self.number[i])
+            let defaultPlace05 = DBRef.child("table/dxstatus").child(number[i])
             defaultPlace05.observeSingleEvent(of: .value, with: { (snapshot) in self.dxstatus[i] = (snapshot.value! as AnyObject).description})
-            let defaultPlace04 = DBRef.child("table/destatus").child(self.number[i])
+            let defaultPlace04 = DBRef.child("table/destatus").child(number[i])
             defaultPlace04.observeSingleEvent(of: .value, with: { (snapshot) in self.destatus[i] = (snapshot.value! as AnyObject).description})
             
             //注文数同期
-            let defaultPlaceT = self.DBRef.child("table/order").child(self.number[i]).child("time")
+            let defaultPlaceT = self.DBRef.child("table/order").child(number[i]).child("time")
             defaultPlaceT.observeSingleEvent(of: .value, with: { (snapshot) in self.hogetime[i] = (snapshot.value! as AnyObject).description
             })
+            let defaultPlaceT2 = self.DBRef.child("table/order").child(number[i]).child("completetime")
+            defaultPlaceT2.observeSingleEvent(of: .value, with: { (snapshot) in self.hogetime2[i] = (snapshot.value! as AnyObject).description
+            })
+            let defaultPlace3 = DBRef.child("table/setamount").child(number[i]).child("sset")
+            defaultPlace3.observeSingleEvent(of: .value, with: { (snapshot) in self.sbamount[i] = (snapshot.value! as AnyObject).description})
             let defaultPlace = DBRef.child("table/order").child(number[i]).child("b1amount")
             defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in self.b1amount[i] = (snapshot.value! as AnyObject).description})
             let defaultPlace9 = DBRef.child("table/order").child(number[i]).child("s1amount")
@@ -272,8 +303,6 @@ UICollectionViewDelegate {
             defaultPlace11.observeSingleEvent(of: .value, with: { (snapshot) in self.s3amount[i] = (snapshot.value! as AnyObject).description})
             let defaultPlace2 = DBRef.child("table/order").child(number[i]).child("d1amount")
             defaultPlace2.observeSingleEvent(of: .value, with: { (snapshot) in self.d1amount[i] = (snapshot.value! as AnyObject).description})
-            let defaultPlace3 = DBRef.child("table/order").child(number[i]).child("d2amount")
-            defaultPlace3.observeSingleEvent(of: .value, with: { (snapshot) in self.d2amount[i] = (snapshot.value! as AnyObject).description})
             let defaultPlace4 = DBRef.child("table/order").child(number[i]).child("d3amount")
             defaultPlace4.observeSingleEvent(of: .value, with: { (snapshot) in self.d3amount[i] = (snapshot.value! as AnyObject).description})
             let defaultPlace5 = DBRef.child("table/order").child(number[i]).child("d4amount")

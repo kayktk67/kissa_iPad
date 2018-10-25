@@ -22,7 +22,16 @@ class InFinishViewController: UIViewController{
     var Border : String?
     var Sorder : String?
     var BSorder : String?
+    var NoIceorder : String?
     var CPrice = 0
+    var allc1amount : String?
+    var allc3amount : String?
+    var allc10amount : String?
+    var newallc1amount : Int?
+    var newallc3amount : Int?
+    var newallc10amount : Int?
+    var proceeds : String?
+    var intproceeds : Int?
     
     @IBOutlet weak var tableNumberLabel: UILabel!
     
@@ -38,39 +47,44 @@ class InFinishViewController: UIViewController{
     @IBOutlet weak var BSetOrderAmount: UILabel!
     @IBOutlet weak var SSetOrderAmount: UILabel!
     @IBOutlet weak var BSSetOrderAmount: UILabel!
+    @IBOutlet weak var NoIceOrderAmount: UILabel!
     @IBOutlet weak var BSetRemainAmount: UILabel!
     @IBOutlet weak var SSetRemainAmount: UILabel!
     @IBOutlet weak var BSSetRemainAmount: UILabel!
+    @IBOutlet weak var NoIceRemainAmount: UILabel!
     @IBOutlet weak var BSetAccountingAmount: UILabel!
     @IBOutlet weak var SSetAccountingAmount: UILabel!
     @IBOutlet weak var BSSetAccountingAmount: UILabel!
+    @IBOutlet weak var NoIceAccountingAmount: UILabel!
     
     @IBOutlet weak var BSetAccountingStepper: UIStepper!
     @IBOutlet weak var SSetAccountingStepper: UIStepper!
     @IBOutlet weak var BSSetAccountingStepper: UIStepper!
+    @IBOutlet weak var NoIceAccountingStepper: UIStepper!
     
     @IBOutlet weak var SumMoneyAmount: UILabel!
     @IBOutlet weak var GetMoneyAmount: UILabel!
     @IBOutlet weak var BackMoneyAmount: UILabel!
+    @IBOutlet weak var ProceedsAmount: UILabel!
     
     
     @IBAction func C1Stepper(_ sender: UIStepper) {
         let Amount = Int(sender.value)
         C1Amount.text = "\(Amount)"
         CPrice = Int(C1Amount.text!)!*150 + Int(C3Amount.text!)!*400 + Int(C10Amount.text!)!*1200
-        SumMoneyAmount.text = "\(Int(BSetAccountingStepper.value)*600 + Int(SSetAccountingStepper.value)*600 + Int(BSSetAccountingStepper.value)*800 + CPrice)"
+        SumMoneyAmount.text = "\(Int(BSetAccountingStepper.value)*600 + Int(SSetAccountingStepper.value)*600 + Int(BSSetAccountingStepper.value)*800 - Int(NoIceAccountingStepper.value)*100 + CPrice)"
     }
     @IBAction func C3Stepper(_ sender: UIStepper) {
         let Amount = Int(sender.value)
         C3Amount.text = "\(Amount)"
         CPrice = Int(C1Amount.text!)!*150 + Int(C3Amount.text!)!*400 + Int(C10Amount.text!)!*1200
-        SumMoneyAmount.text = "\(Int(BSetAccountingStepper.value)*600 + Int(SSetAccountingStepper.value)*600 + Int(BSSetAccountingStepper.value)*800 + CPrice)"
+        SumMoneyAmount.text = "\(Int(BSetAccountingStepper.value)*600 + Int(SSetAccountingStepper.value)*600 + Int(BSSetAccountingStepper.value)*800 - Int(NoIceAccountingStepper.value)*100 + CPrice)"
     }
     @IBAction func C10Stepper(_ sender: UIStepper) {
         let Amount = Int(sender.value)
         C10Amount.text = "\(Amount)"
         CPrice = Int(C1Amount.text!)!*150 + Int(C3Amount.text!)!*400 + Int(C10Amount.text!)!*1200
-        SumMoneyAmount.text = "\(Int(BSetAccountingStepper.value)*600 + Int(SSetAccountingStepper.value)*600 + Int(BSSetAccountingStepper.value)*800 + CPrice)"
+        SumMoneyAmount.text = "\(Int(BSetAccountingStepper.value)*600 + Int(SSetAccountingStepper.value)*600 + Int(BSSetAccountingStepper.value)*800 - Int(NoIceAccountingStepper.value)*100 + CPrice)"
     }
     
     @IBAction func BSetStepper(_ sender: UIStepper) {
@@ -79,7 +93,7 @@ class InFinishViewController: UIViewController{
             BSetAccountingStepper.value = Double(Int(BSetRemainAmount.text!)!)
         }else{
         BSetAccountingAmount.text = "\(Amount)"
-        SumMoneyAmount.text = "\(Int(BSetAccountingStepper.value)*600 + Int(SSetAccountingStepper.value)*600 + Int(BSSetAccountingStepper.value)*800 + CPrice)"
+        SumMoneyAmount.text = "\(Int(BSetAccountingStepper.value)*600 + Int(SSetAccountingStepper.value)*600 + Int(BSSetAccountingStepper.value)*800 - Int(NoIceAccountingStepper.value)*100 + CPrice)"
         }
     }
     @IBAction func SSetStepper(_ sender: UIStepper) {
@@ -88,7 +102,7 @@ class InFinishViewController: UIViewController{
             SSetAccountingStepper.value = Double(Int(SSetRemainAmount.text!)!)
         }else{
             SSetAccountingAmount.text = "\(Amount)"
-            SumMoneyAmount.text = "\(Int(BSetAccountingStepper.value)*600 + Int(SSetAccountingStepper.value)*600 + Int(BSSetAccountingStepper.value)*800 + CPrice)"
+            SumMoneyAmount.text = "\(Int(BSetAccountingStepper.value)*600 + Int(SSetAccountingStepper.value)*600 + Int(BSSetAccountingStepper.value)*800 - Int(NoIceAccountingStepper.value)*100 + CPrice)"
         }
     }
     @IBAction func BSSetStepper(_ sender: UIStepper) {
@@ -97,7 +111,16 @@ class InFinishViewController: UIViewController{
             BSSetAccountingStepper.value = Double(Int(BSSetRemainAmount.text!)!)
         }else{
             BSSetAccountingAmount.text = "\(Amount)"
-            SumMoneyAmount.text = "\(Int(BSetAccountingStepper.value)*600 + Int(SSetAccountingStepper.value)*600 + Int(BSSetAccountingStepper.value)*800 + CPrice)"
+            SumMoneyAmount.text = "\(Int(BSetAccountingStepper.value)*600 + Int(SSetAccountingStepper.value)*600 + Int(BSSetAccountingStepper.value)*800 - Int(NoIceAccountingStepper.value)*100 + CPrice)"
+        }
+    }
+    @IBAction func NoIceStepper(_ sender: UIStepper) {
+        let Amount = Int(sender.value)
+        if Amount > Int(NoIceRemainAmount.text!)!{
+            NoIceAccountingStepper.value = Double(Int(NoIceRemainAmount.text!)!)
+        }else{
+            NoIceAccountingAmount.text = "\(Amount)"
+            SumMoneyAmount.text = "\(Int(BSetAccountingStepper.value)*600 + Int(SSetAccountingStepper.value)*600 + Int(BSSetAccountingStepper.value)*800 - Int(NoIceAccountingStepper.value)*100 + CPrice)"
         }
     }
     
@@ -108,7 +131,9 @@ class InFinishViewController: UIViewController{
         SSetAccountingStepper.value = Double(Int(SSetRemainAmount.text!)!)
         BSSetAccountingAmount.text = BSSetRemainAmount.text
         BSSetAccountingStepper.value = Double(Int(BSSetRemainAmount.text!)!)
-        SumMoneyAmount.text = "\(Int(BSetAccountingStepper.value)*600 + Int(SSetAccountingStepper.value)*600 + Int(BSSetAccountingStepper.value)*800 + CPrice)"
+        NoIceAccountingAmount.text = NoIceRemainAmount.text
+        NoIceAccountingStepper.value = Double(Int(NoIceRemainAmount.text!)!)
+        SumMoneyAmount.text = "\(Int(BSetAccountingStepper.value)*600 + Int(SSetAccountingStepper.value)*600 + Int(BSSetAccountingStepper.value)*800 - Int(NoIceAccountingStepper.value)*100 + CPrice)"
     }
     
     @IBAction func number(_ sender: UIButton) {
@@ -150,7 +175,7 @@ class InFinishViewController: UIViewController{
                 defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in hogekey = (snapshot.value! as AnyObject).description
                 guard let client = DropboxClientsManager.authorizedClient else {
                     return}
-                let fileData = "\(self.hogetime),\(self.tableNumber!),/\(hogekey!)/,\(self.BSetAccountingAmount.text!),\(self.SSetAccountingAmount.text!),\(self.BSSetAccountingAmount.text!),\(self.C1Amount.text!),\(self.C3Amount.text!),\(self.C10Amount.text!),\(self.GetMoneyAmount.text!)".data(using: String.Encoding.utf8, allowLossyConversion: false)!
+                let fileData = "\(self.hogetime),\(self.tableNumber!),/\(hogekey!)/,\(self.BSetAccountingAmount.text!),\(self.SSetAccountingAmount.text!),\(self.BSSetAccountingAmount.text!),\(self.NoIceAccountingAmount.text!),\(self.C1Amount.text!),\(self.C3Amount.text!),\(self.C10Amount.text!),\(self.GetMoneyAmount.text!)".data(using: String.Encoding.utf8, allowLossyConversion: false)!
                 _ = client.files.deleteV2(path: "/Data/receipt.csv")
                         .response{ response, error in
                         if let response = response {
@@ -174,29 +199,56 @@ class InFinishViewController: UIViewController{
                     self.C1Sum = "\(Int(self.C1Sum)! + Int(self.C1Amount.text!)!)"
                     self.C3Sum = "\(Int(self.C3Sum)! + Int(self.C3Amount.text!)!)"
                     self.C10Sum = "\(Int(self.C10Sum)! + Int(self.C10Amount.text!)!)"
+                    
                     //全食数の更新
                     self.DBRef.child("table/allorder/allc1amount").setValue(Int(self.AllC1Amount.text!)!-Int(self.C1Amount.text!)!)
-                    self.DBRef.child("table/allorder/allc3amount").setValue(Int(self.AllC3Amount.text!)!-Int(self.C3Amount.text!)!)
-                    self.DBRef.child("table/allorder/allc10amount").setValue(Int(self.AllC10Amount.text!)!-Int(self.C10Amount.text!)!)
+                    let defaultPlace9 = self.DBRef.child("table/allorder/allc1amount")
+                    defaultPlace9.observeSingleEvent(of: .value, with: { (snapshot) in
+                        self.allc1amount = (snapshot.value! as AnyObject).description
+                        self.newallc1amount = Int(self.allc1amount!)! - Int(self.C1Amount.text!)!
+                        self.DBRef.child("table/allorder/allc1amount").setValue(self.newallc1amount)
+                        self.C1Amount.text = "0"
+                        self.C1StepperValue.value = 0
+                    })
+                    let defaultPlace10 = self.DBRef.child("table/allorder/allc3amount")
+                    defaultPlace10.observeSingleEvent(of: .value, with: { (snapshot) in
+                        self.allc3amount = (snapshot.value! as AnyObject).description
+                        self.newallc3amount = Int(self.allc3amount!)! - Int(self.C3Amount.text!)!
+                        self.DBRef.child("table/allorder/allc3amount").setValue(self.newallc3amount)
+                        self.C3Amount.text = "0"
+                        self.C3StepperValue.value = 0
+                    })
+                    let defaultPlace11 = self.DBRef.child("table/allorder/allc10amount")
+                    defaultPlace11.observeSingleEvent(of: .value, with: { (snapshot) in
+                        self.allc10amount = (snapshot.value! as AnyObject).description
+                        self.newallc10amount = Int(self.allc10amount!)! - Int(self.C10Amount.text!)!
+                        self.DBRef.child("table/allorder/allc10amount").setValue(self.newallc10amount)
+                        self.C10Amount.text = "0"
+                        self.C10StepperValue.value = 0
+                    })
+                    let defaultPlace12 = self.DBRef.child("inproceeds")
+                    defaultPlace12.observeSingleEvent(of: .value, with: { (snapshot) in
+                        self.proceeds = (snapshot.value! as AnyObject).description
+                        self.intproceeds = Int(self.proceeds!)! + Int(self.SumMoneyAmount.text!)!
+                        self.DBRef.child("inproceeds").setValue(self.intproceeds)
+                        self.SumMoneyAmount.text = "0"
+                    })
                     let BSet = Int(self.BSetRemainAmount.text!)!-Int(self.BSetAccountingAmount.text!)!
                     self.BSetRemainAmount.text = String(BSet)
                     let SSet = Int(self.SSetRemainAmount.text!)!-Int(self.SSetAccountingAmount.text!)!
                     self.SSetRemainAmount.text = String(SSet)
                     let BSSet = Int(self.BSSetRemainAmount.text!)!-Int(self.BSSetAccountingAmount.text!)!
                     self.BSSetRemainAmount.text = String(BSSet)
-                    self.C1Amount.text = "0"
-                    self.C1StepperValue.value = 0
-                    self.C3Amount.text = "0"
-                    self.C3StepperValue.value = 0
-                    self.C10Amount.text = "0"
-                    self.C10StepperValue.value = 0
+                    let NoIce = Int(self.NoIceRemainAmount.text!)!-Int(self.NoIceAccountingAmount.text!)!
+                    self.NoIceRemainAmount.text = String(NoIce)
                     self.BSetAccountingAmount.text = "0"
                     self.BSetAccountingStepper.value = 0
                     self.SSetAccountingAmount.text = "0"
                     self.SSetAccountingStepper.value = 0
                     self.BSSetAccountingAmount.text = "0"
                     self.BSSetAccountingStepper.value = 0
-                    self.SumMoneyAmount.text = "0"
+                    self.NoIceAccountingAmount.text = "0"
+                    self.NoIceAccountingStepper.value = 0
                     self.GetMoneyAmount.text = "0"
                     self.BackMoneyAmount.text = "0"
                     self.CPrice = 0
@@ -208,11 +260,12 @@ class InFinishViewController: UIViewController{
                             var hogekey : String?
                             let defaultPlace = self.DBRef.child("table/orderkey").child(self.tableNumber!)
                             defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in hogekey = (snapshot.value! as AnyObject).description
-                        self.DBRef.child("indata").child(hogekey!).updateChildValues(["exittime":ServerValue.timestamp(),"c1":self.C1Sum,"c3":self.C3Sum,"c10":self.C10Sum])
+                        self.DBRef.child("indata").child(hogekey!).updateChildValues(["exittime":ServerValue.timestamp()])
+                                self.DBRef.child("cdata").childByAutoId().setValue(["c1":self.C1Sum,"c3":self.C3Sum,"c10":self.C10Sum,"time":ServerValue.timestamp()])
                             self.DBRef.child("table/orderorder").child(hogekey!).setValue(nil)
                             self.DBRef.child("table/orderkey").child(self.tableNumber!).setValue(nil)
                         })
-                        self.DBRef.child("table/order").child(self.tableNumber!).setValue(["b1amount":0,"b3amount":0,"b4amount":0,"s1amount":0,"s2amount":0,"s3amount":0,"d1amount":0,"d2amount":0,"d3amount":0,"d4amount":0,"dx1amount":0,"dx2amount":0,"dx3amount":0,"dx4amount":0,"de1amount":0,"de2amount":0,"de3amount":0,"time":0])
+                        self.DBRef.child("table/order").child(self.tableNumber!).setValue(["b1amount":0,"b3amount":0,"b4amount":0,"s1amount":0,"s2amount":0,"s3amount":0,"d1amount":0,"d2amount":0,"d3amount":0,"d4amount":0,"dx1amount":0,"dx2amount":0,"dx3amount":0,"dx4amount":0,"de1amount":0,"de2amount":0,"de3amount":0,"time":0,"completetime":0])
                         self.DBRef.child("table/status").child(self.tableNumber!).setValue(0)
                         self.DBRef.child("table/bstatus").child(self.tableNumber!).setValue(0)
                         self.DBRef.child("table/tbstatus").child(self.tableNumber!).setValue(0)
@@ -220,7 +273,7 @@ class InFinishViewController: UIViewController{
                         self.DBRef.child("table/dstatus").child(self.tableNumber!).setValue(0)
                         self.DBRef.child("table/dxstatus").child(self.tableNumber!).setValue(0)
                         self.DBRef.child("table/destatus").child(self.tableNumber!).setValue(0)
-                        self.DBRef.child("table/setamount").child(self.tableNumber!).setValue(["bset":0,"sset":0,"bsset":0])
+                        self.DBRef.child("table/setamount").child(self.tableNumber!).setValue(["bset":0,"sset":0,"bsset":0,"noice":0])
                     }
                     alertController.addAction(OKButton)
                     self.present(alertController,animated: true,completion: nil)
@@ -264,7 +317,10 @@ class InFinishViewController: UIViewController{
         defaultPlace3.observe(.value) { (snap: DataSnapshot) in self.BSSetOrderAmount.text = (snap.value! as AnyObject).description}
         defaultPlace3.observe(.value) { (snap: DataSnapshot) in self.BSSetRemainAmount.text = (snap.value! as AnyObject).description}
         defaultPlace3.observeSingleEvent(of: .value, with: { (snapshot) in self.BSorder = (snapshot.value! as AnyObject).description})
-        
+        let defaultPlace8 = DBRef.child("table/setamount").child(tableNumber!).child("noice")
+        defaultPlace8.observe(.value) { (snap: DataSnapshot) in self.NoIceOrderAmount.text = (snap.value! as AnyObject).description}
+        defaultPlace8.observe(.value) { (snap: DataSnapshot) in self.NoIceRemainAmount.text = (snap.value! as AnyObject).description}
+        defaultPlace8.observeSingleEvent(of: .value, with: { (snapshot) in self.NoIceorder = (snapshot.value! as AnyObject).description})
         
         let defaultPlace4 = self.DBRef.child("table/allorder/allc1amount")
         defaultPlace4.observe(.value) { (snap: DataSnapshot) in
@@ -277,6 +333,10 @@ class InFinishViewController: UIViewController{
         let defaultPlace6 = self.DBRef.child("table/allorder/allc10amount")
         defaultPlace6.observe(.value) { (snap: DataSnapshot) in
             self.AllC10Amount.text = (snap.value! as AnyObject).description
+        }
+        let defaultPlace7 = self.DBRef.child("inproceeds")
+        defaultPlace7.observe(.value) { (snap: DataSnapshot) in
+            self.ProceedsAmount.text = (snap.value! as AnyObject).description
         }
     }
     
