@@ -20,11 +20,8 @@ class SelectViewController : UIViewController{
     @IBAction func toComplete(_ sender: Any) {
         performSegue(withIdentifier: "tocompleteviewcontroller", sender: nil)
     }
-    @IBAction func toOrderList(_ sender: Any) {
-        performSegue(withIdentifier: "toorderlist", sender: nil)
-    }
-    @IBAction func toDDOrderList(_ sender: Any) {
-        performSegue(withIdentifier: "toddorderlist", sender: nil)
+    @IBAction func toAllAmount(_ sender: Any) {
+        performSegue(withIdentifier: "toallamount", sender: nil)
     }
     
     @IBAction func dropbox(_ sender: Any) {

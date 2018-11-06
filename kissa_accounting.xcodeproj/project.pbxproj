@@ -16,6 +16,7 @@
 		AA6B2CF7214431270096A24E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA6B2CF6214431270096A24E /* Assets.xcassets */; };
 		AA6B2CFA214431270096A24E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA6B2CF8214431270096A24E /* LaunchScreen.storyboard */; };
 		AA755DC321800E16003E482B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA755DC221800E16003E482B /* GoogleService-Info.plist */; };
+		AA9CA872218DE8CA008ADD40 /* AllAmountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9CA871218DE8CA008ADD40 /* AllAmountViewController.swift */; };
 		AAED2976214E63FF00FA7A0D /* InViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAED2975214E63FF00FA7A0D /* InViewController.swift */; };
 		D9232FF34F5179E07FFDBFFE /* Pods_kissa_accounting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D4599935B61EA43CA29A8B9 /* Pods_kissa_accounting.framework */; };
 /* End PBXBuildFile section */
@@ -35,6 +36,7 @@
 		AA6B2CF9214431270096A24E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AA6B2CFB214431270096A24E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA755DC221800E16003E482B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AA9CA871218DE8CA008ADD40 /* AllAmountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllAmountViewController.swift; sourceTree = "<group>"; };
 		AAED2975214E63FF00FA7A0D /* InViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -80,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				AA6B2CEF214431260096A24E /* AppDelegate.swift */,
+				AA9CA871218DE8CA008ADD40 /* AllAmountViewController.swift */,
 				AA2857092145F2A2008DD8B1 /* SelectViewController.swift */,
 				AA6B2CF1214431260096A24E /* ViewController.swift */,
 				AAED2975214E63FF00FA7A0D /* InViewController.swift */,
@@ -226,6 +229,7 @@
 				AA43F6082168C5DA006362D2 /* InFinishViewController.swift in Sources */,
 				AA28570A2145F2A2008DD8B1 /* SelectViewController.swift in Sources */,
 				AAED2976214E63FF00FA7A0D /* InViewController.swift in Sources */,
+				AA9CA872218DE8CA008ADD40 /* AllAmountViewController.swift in Sources */,
 				AA6B2CF2214431260096A24E /* ViewController.swift in Sources */,
 				AA00E618215F5E0000CD18DE /* CompleteViewController.swift in Sources */,
 				AA6B2CF0214431260096A24E /* AppDelegate.swift in Sources */,
@@ -373,8 +377,9 @@
 			baseConfigurationReference = 42D64E8960358071C727D4AD /* Pods-kissa_accounting.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 63MASNSR4G;
+				DEVELOPMENT_TEAM = Q3W9HU74PY;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = kissa_accounting/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
@@ -382,8 +387,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Kei.kissa-accounting";
+				PRODUCT_BUNDLE_IDENTIFIER = "Kei.kissa-accounting.........";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -394,8 +400,9 @@
 			baseConfigurationReference = 68686639555A14A6602EAB62 /* Pods-kissa_accounting.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 63MASNSR4G;
+				DEVELOPMENT_TEAM = Q3W9HU74PY;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = kissa_accounting/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
@@ -403,8 +410,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Kei.kissa-accounting";
+				PRODUCT_BUNDLE_IDENTIFIER = "Kei.kissa-accounting.........";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 2;
 			};

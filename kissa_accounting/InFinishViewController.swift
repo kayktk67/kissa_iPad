@@ -24,9 +24,12 @@ class InFinishViewController: UIViewController{
     var BSorder : String?
     var NoIceorder : String?
     var CPrice = 0
+    var AllCookie = 0
+    var allcookieamount : String?
     var allc1amount : String?
     var allc3amount : String?
     var allc10amount : String?
+    var newallcookieamount : Int?
     var newallc1amount : Int?
     var newallc3amount : Int?
     var newallc10amount : Int?
@@ -61,6 +64,7 @@ class InFinishViewController: UIViewController{
     @IBOutlet weak var SSetAccountingStepper: UIStepper!
     @IBOutlet weak var BSSetAccountingStepper: UIStepper!
     @IBOutlet weak var NoIceAccountingStepper: UIStepper!
+    @IBOutlet weak var AllCookieAmount: UILabel!
     
     @IBOutlet weak var SumMoneyAmount: UILabel!
     @IBOutlet weak var GetMoneyAmount: UILabel!
@@ -164,6 +168,7 @@ class InFinishViewController: UIViewController{
     
     @IBAction func separate(_ sender: Any) {
         BackMoneyAmount.text = "\(Int(GetMoneyAmount.text!)!-Int(SumMoneyAmount.text!)!)"
+        AllCookie = Int(C1StepperValue.value) + Int(C3StepperValue.value)*3 + Int(C10StepperValue.value)*10
         let alertController = UIAlertController(title: "会計処理",message: "実行しますか？", preferredStyle: UIAlertController.Style.alert)
         let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default){ (action: UIAlertAction) in
             //お釣り表示・各種初期化
@@ -201,7 +206,12 @@ class InFinishViewController: UIViewController{
                     self.C10Sum = "\(Int(self.C10Sum)! + Int(self.C10Amount.text!)!)"
                     
                     //全食数の更新
-                    self.DBRef.child("table/allorder/allc1amount").setValue(Int(self.AllC1Amount.text!)!-Int(self.C1Amount.text!)!)
+                    let defaultPlace13 = self.DBRef.child("table/allorder/allcookieamount")
+                    defaultPlace13.observeSingleEvent(of: .value, with: { (snapshot) in
+                        self.allcookieamount = (snapshot.value! as AnyObject).description
+                        self.newallcookieamount = Int(self.allcookieamount!)! - self.AllCookie
+                        self.DBRef.child("table/allorder/allcookieamount").setValue(self.newallcookieamount)
+                    })
                     let defaultPlace9 = self.DBRef.child("table/allorder/allc1amount")
                     defaultPlace9.observeSingleEvent(of: .value, with: { (snapshot) in
                         self.allc1amount = (snapshot.value! as AnyObject).description
@@ -254,7 +264,7 @@ class InFinishViewController: UIViewController{
                     self.CPrice = 0
                 
                 //会計終了判定
-                if self.BSetRemainAmount.text == "0",self.SSetRemainAmount.text == "0",self.BSSetRemainAmount.text == "0"{
+                if self.BSetRemainAmount.text == "0",self.SSetRemainAmount.text == "0",self.BSSetRemainAmount.text == "0",self.NoIceRemainAmount.text == "0"{
                     let alertController = UIAlertController(title: "会計が終了しました",message: "", preferredStyle: UIAlertController.Style.alert)
                     let OKButton = UIAlertAction(title: "OK", style: UIAlertAction.Style.default){ (action: UIAlertAction) in
                             var hogekey : String?
@@ -265,7 +275,7 @@ class InFinishViewController: UIViewController{
                             self.DBRef.child("table/orderorder").child(hogekey!).setValue(nil)
                             self.DBRef.child("table/orderkey").child(self.tableNumber!).setValue(nil)
                         })
-                        self.DBRef.child("table/order").child(self.tableNumber!).setValue(["b1amount":0,"b3amount":0,"b4amount":0,"s1amount":0,"s2amount":0,"s3amount":0,"d1amount":0,"d2amount":0,"d3amount":0,"d4amount":0,"dx1amount":0,"dx2amount":0,"dx3amount":0,"dx4amount":0,"de1amount":0,"de2amount":0,"de3amount":0,"time":0,"completetime":0])
+                        self.DBRef.child("table/order").child(self.tableNumber!).setValue(["b1amount":0,"b3amount":0,"b4amount":0,"s1amount":0,"s2amount":0,"s3amount":0,"d1amount":0,"d2amount":0,"d3amount":0,"d4amount":0,"dx1amount":0,"dx2amount":0,"dx3amount":0,"dx4amount":0,"de1amount":0,"de2amount":0,"de3amount":0,"de4amount":0,"time":0,"completetime":0])
                         self.DBRef.child("table/status").child(self.tableNumber!).setValue(0)
                         self.DBRef.child("table/bstatus").child(self.tableNumber!).setValue(0)
                         self.DBRef.child("table/tbstatus").child(self.tableNumber!).setValue(0)
@@ -279,7 +289,7 @@ class InFinishViewController: UIViewController{
                     self.present(alertController,animated: true,completion: nil)
                 }
                 })
-            }
+            } 
             alertController.addAction(OKButton)
             self.present(alertController,animated: true,completion: nil)
         }
@@ -322,22 +332,22 @@ class InFinishViewController: UIViewController{
         defaultPlace8.observe(.value) { (snap: DataSnapshot) in self.NoIceRemainAmount.text = (snap.value! as AnyObject).description}
         defaultPlace8.observeSingleEvent(of: .value, with: { (snapshot) in self.NoIceorder = (snapshot.value! as AnyObject).description})
         
+        let defaultPlace9 = self.DBRef.child("table/allorder/allcookieamount")
+        defaultPlace9.observe(.value) { (snap: DataSnapshot) in
+            self.AllCookieAmount.text = (snap.value! as AnyObject).description}
+        
         let defaultPlace4 = self.DBRef.child("table/allorder/allc1amount")
         defaultPlace4.observe(.value) { (snap: DataSnapshot) in
-            self.AllC1Amount.text = (snap.value! as AnyObject).description
-        }
+            self.AllC1Amount.text = (snap.value! as AnyObject).description}
         let defaultPlace5 = self.DBRef.child("table/allorder/allc3amount")
         defaultPlace5.observe(.value) { (snap: DataSnapshot) in
-            self.AllC3Amount.text = (snap.value! as AnyObject).description
-        }
+            self.AllC3Amount.text = (snap.value! as AnyObject).description}
         let defaultPlace6 = self.DBRef.child("table/allorder/allc10amount")
         defaultPlace6.observe(.value) { (snap: DataSnapshot) in
-            self.AllC10Amount.text = (snap.value! as AnyObject).description
-        }
+            self.AllC10Amount.text = (snap.value! as AnyObject).description}
         let defaultPlace7 = self.DBRef.child("inproceeds")
         defaultPlace7.observe(.value) { (snap: DataSnapshot) in
-            self.ProceedsAmount.text = (snap.value! as AnyObject).description
-        }
+            self.ProceedsAmount.text = (snap.value! as AnyObject).description}
     }
     
     override func didReceiveMemoryWarning() {

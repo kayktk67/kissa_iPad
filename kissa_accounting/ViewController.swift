@@ -36,8 +36,9 @@ UICollectionViewDelegate {
     var dx2amount = Array(repeating: "0", count: 20)
     var dx3amount = Array(repeating: "0", count: 20)
     var dx4amount = Array(repeating: "0", count: 20)
-    
-    var sbamount = Array(repeating: "0", count: 20)
+    var c1amount = Array(repeating: "0", count: 20)
+    var c3amount = Array(repeating: "0", count: 20)
+    var c10amount = Array(repeating: "0", count: 20)
 
    
     @IBOutlet weak var collectionView: UICollectionView!
@@ -54,7 +55,6 @@ UICollectionViewDelegate {
         let s2amountlabel = Cell.contentView.viewWithTag(10) as! UILabel
         let s3amountlabel = Cell.contentView.viewWithTag(11) as! UILabel
         let d1amountlabel = Cell.contentView.viewWithTag(5) as! UILabel
-        let sbamountlabel = Cell.contentView.viewWithTag(6) as! UILabel
         let d3amountlabel = Cell.contentView.viewWithTag(7) as! UILabel
         let d4amountlabel = Cell.contentView.viewWithTag(8) as! UILabel
         let Statuslabel = Cell.contentView.viewWithTag(12) as! UILabel
@@ -66,19 +66,24 @@ UICollectionViewDelegate {
         let dx2amountlabel = Cell.contentView.viewWithTag(17) as! UILabel
         let dx3amountlabel = Cell.contentView.viewWithTag(18) as! UILabel
         let dx4amountlabel = Cell.contentView.viewWithTag(19) as! UILabel
+        let c1amountlabel = Cell.contentView.viewWithTag(21) as! UILabel
+        let c3amountlabel = Cell.contentView.viewWithTag(22) as! UILabel
+        let c10amountlabel = Cell.contentView.viewWithTag(23) as! UILabel
         b3amountlabel.text =  self.b3amount[indexPath.row]
         b4amountlabel.text =  self.b4amount[indexPath.row]
         s1amountlabel.text =  self.s1amount[indexPath.row]
         s2amountlabel.text =  self.s2amount[indexPath.row]
         s3amountlabel.text =  self.s3amount[indexPath.row]
         d1amountlabel.text =  self.d1amount[indexPath.row]
-        sbamountlabel.text =  self.sbamount[indexPath.row]
         d3amountlabel.text =  self.d3amount[indexPath.row]
         d4amountlabel.text =  self.d4amount[indexPath.row]
         dx1amountlabel.text =  self.dx1amount[indexPath.row]
         dx2amountlabel.text =  self.dx2amount[indexPath.row]
         dx3amountlabel.text =  self.dx3amount[indexPath.row]
         dx4amountlabel.text =  self.dx4amount[indexPath.row]
+        c1amountlabel.text =  self.c1amount[indexPath.row]
+        c3amountlabel.text =  self.c3amount[indexPath.row]
+        c10amountlabel.text =  self.c10amount[indexPath.row]
         tablelabel.text = "Table" + number[indexPath.row]
         
         //注文数同期
@@ -166,82 +171,140 @@ UICollectionViewDelegate {
         //インスタンスを作成
         DBRef = Database.database().reference()
         //オーダーリストの取得
-        let defaultPlace = DBRef.child("table/orderorder")
+        let defaultPlace = self.DBRef.child("table/orderorder")
         defaultPlace.observe(.value, with: { snapshot in
             var array: [String] = []
             for item in (snapshot.children) {
                 let snapshot = item as! DataSnapshot
                 let dict = snapshot.value as! String
                 if Int(dict)!>100{
-                array.append(dict)
+                    array.append(dict)
                 }
             }
             DispatchQueue.main.async {
                 self.number = array
+                self.statusload()
+                self.statusloaddata()
+                self.amountload()
+                self.amountloaddata()
             }
         })
+        
         Timer.scheduledTimer(
-            timeInterval: 0.2,
+            timeInterval: 0.5,
             target: self,
-            selector: #selector(self.reloadData(_:)),
+            selector: #selector(self.load(_:)),
             userInfo: nil,
             repeats: true
         )
     }
     
-    @objc func reloadData(_ sender: Timer) {
-        for i in 0..<number.count{
-        //注文数同期
-        let defaultPlaceT = self.DBRef.child("table/order").child(self.number[i]).child("time")
-        defaultPlaceT.observeSingleEvent(of: .value, with: { (snapshot) in self.hogetime[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace = DBRef.child("table/order").child(number[i]).child("b3amount")
-        defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in self.b3amount[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace1 = DBRef.child("table/order").child(number[i]).child("b4amount")
-            defaultPlace1.observeSingleEvent(of: .value, with: { (snapshot) in self.b4amount[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace6 = DBRef.child("table/order").child(number[i]).child("s1amount")
-        defaultPlace6.observeSingleEvent(of: .value, with: { (snapshot) in self.s1amount[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace7 = DBRef.child("table/order").child(number[i]).child("s2amount")
-        defaultPlace7.observeSingleEvent(of: .value, with: { (snapshot) in self.s2amount[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace8 = DBRef.child("table/order").child(number[i]).child("s3amount")
-        defaultPlace8.observeSingleEvent(of: .value, with: { (snapshot) in self.s3amount[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace2 = DBRef.child("table/order").child(number[i]).child("d1amount")
-        defaultPlace2.observeSingleEvent(of: .value, with: { (snapshot) in self.d1amount[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace3 = DBRef.child("table/setamount").child(number[i]).child("sset")
-        defaultPlace3.observeSingleEvent(of: .value, with: { (snapshot) in self.sbamount[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace4 = DBRef.child("table/order").child(number[i]).child("d3amount")
-        defaultPlace4.observeSingleEvent(of: .value, with: { (snapshot) in self.d3amount[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace5 = DBRef.child("table/order").child(number[i]).child("d4amount")
-        defaultPlace5.observeSingleEvent(of: .value, with: { (snapshot) in self.d4amount[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace12 = DBRef.child("table/order").child(number[i]).child("dx1amount")
-        defaultPlace12.observeSingleEvent(of: .value, with: { (snapshot) in self.dx1amount[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace13 = DBRef.child("table/order").child(number[i]).child("dx2amount")
-        defaultPlace13.observeSingleEvent(of: .value, with: { (snapshot) in self.dx2amount[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace14 = DBRef.child("table/order").child(number[i]).child("dx3amount")
-        defaultPlace14.observeSingleEvent(of: .value, with: { (snapshot) in self.dx3amount[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace15 = DBRef.child("table/order").child(number[i]).child("dx4amount")
-        defaultPlace15.observeSingleEvent(of: .value, with: { (snapshot) in self.dx4amount[i] = (snapshot.value! as AnyObject).description})
-        
-        //席ステータス取得
-        let defaultPlace0 = DBRef.child("table/status").child(number[i])
-        defaultPlace0.observeSingleEvent(of: .value, with: { (snapshot) in self.status[i] = (snapshot.value! as AnyObject).description
-            self.intstatus[i] = Int(self.status[i])!})
-        let defaultPlace9 = DBRef.child("table/tbstatus").child(self.number[i])
-        defaultPlace9.observeSingleEvent(of: .value, with: { (snapshot) in self.tbstatus[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace10 = DBRef.child("table/sstatus").child(self.number[i])
-        defaultPlace10.observeSingleEvent(of: .value, with: { (snapshot) in self.sstatus[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace11 = DBRef.child("table/dstatus").child(self.number[i])
-        defaultPlace11.observeSingleEvent(of: .value, with: { (snapshot) in self.dstatus[i] = (snapshot.value! as AnyObject).description})
-        let defaultPlace16 = DBRef.child("table/dxstatus").child(self.number[i])
-        defaultPlace16.observeSingleEvent(of: .value, with: { (snapshot) in self.dxstatus[i] = (snapshot.value! as AnyObject).description})
-        }
-        
+    @objc func load(_ sender: Timer) {
         self.collectionView.reloadData()
     }
     
+    func amountload(){
+        let defaultPlaceXXX = self.DBRef.child("table/order")
+        defaultPlaceXXX.observe(.childChanged, with: { (snapshot) -> Void in
+            //オーダーリストの取得
+            let defaultPlace = self.DBRef.child("table/orderorder")
+            defaultPlace.observe(.value, with: { snapshot in
+                var array: [String] = []
+                for item in (snapshot.children) {
+                    let snapshot = item as! DataSnapshot
+                    let dict = snapshot.value as! String
+                    if Int(dict)!>100{
+                        array.append(dict)
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.number = array
+                }
+            })
+            self.amountloaddata()
+        })
+    }
     
+    func statusload(){
+        let defaultPlaceXXXX = self.DBRef.child("table")
+        defaultPlaceXXXX.observe(.childChanged, with: { (snapshot) -> Void in
+            //オーダーリストの取得
+            let defaultPlace = self.DBRef.child("table/orderorder")
+            defaultPlace.observe(.value, with: { snapshot in
+                var array: [String] = []
+                for item in (snapshot.children) {
+                    let snapshot = item as! DataSnapshot
+                    let dict = snapshot.value as! String
+                    if Int(dict)!>100{
+                        array.append(dict)
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.number = array
+                }
+            })
+            self.statusloaddata()
+        })
+    }
+    
+    func amountloaddata(){
+        for i in 0..<self.number.count{
+            //注文数同期
+            let defaultPlaceT = self.DBRef.child("table/order").child(self.number[i]).child("time")
+            defaultPlaceT.observeSingleEvent(of: .value, with: { (snapshot) in self.hogetime[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace = self.DBRef.child("table/order").child(self.number[i]).child("b3amount")
+            defaultPlace.observeSingleEvent(of: .value, with: { (snapshot) in self.b3amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace1 = self.DBRef.child("table/order").child(self.number[i]).child("b4amount")
+            defaultPlace1.observeSingleEvent(of: .value, with: { (snapshot) in self.b4amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace6 = self.DBRef.child("table/order").child(self.number[i]).child("s1amount")
+            defaultPlace6.observeSingleEvent(of: .value, with: { (snapshot) in self.s1amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace7 = self.DBRef.child("table/order").child(self.number[i]).child("s2amount")
+            defaultPlace7.observeSingleEvent(of: .value, with: { (snapshot) in self.s2amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace8 = self.DBRef.child("table/order").child(self.number[i]).child("s3amount")
+            defaultPlace8.observeSingleEvent(of: .value, with: { (snapshot) in self.s3amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace2 = self.DBRef.child("table/order").child(self.number[i]).child("d1amount")
+            defaultPlace2.observeSingleEvent(of: .value, with: { (snapshot) in self.d1amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace4 = self.DBRef.child("table/order").child(self.number[i]).child("d3amount")
+            defaultPlace4.observeSingleEvent(of: .value, with: { (snapshot) in self.d3amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace5 = self.DBRef.child("table/order").child(self.number[i]).child("d4amount")
+            defaultPlace5.observeSingleEvent(of: .value, with: { (snapshot) in self.d4amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace12 = self.DBRef.child("table/order").child(self.number[i]).child("dx1amount")
+            defaultPlace12.observeSingleEvent(of: .value, with: { (snapshot) in self.dx1amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace13 = self.DBRef.child("table/order").child(self.number[i]).child("dx2amount")
+            defaultPlace13.observeSingleEvent(of: .value, with: { (snapshot) in self.dx2amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace14 = self.DBRef.child("table/order").child(self.number[i]).child("dx3amount")
+            defaultPlace14.observeSingleEvent(of: .value, with: { (snapshot) in self.dx3amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace15 = self.DBRef.child("table/order").child(self.number[i]).child("dx4amount")
+            defaultPlace15.observeSingleEvent(of: .value, with: { (snapshot) in self.dx4amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace16 = self.DBRef.child("table/order").child(self.number[i]).child("c1amount")
+            defaultPlace16.observeSingleEvent(of: .value, with: { (snapshot) in self.c1amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace17 = self.DBRef.child("table/order").child(self.number[i]).child("c3amount")
+            defaultPlace17.observeSingleEvent(of: .value, with: { (snapshot) in self.c3amount[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace18 = self.DBRef.child("table/order").child(self.number[i]).child("c10amount")
+            defaultPlace18.observeSingleEvent(of: .value, with: { (snapshot) in self.c10amount[i] = (snapshot.value! as AnyObject).description})
+        }
+        self.collectionView.reloadData()
+    }
+    
+    func statusloaddata(){
+        for i in 0..<self.number.count{
+            //席ステータス取得
+            let defaultPlace0 = self.DBRef.child("table/status").child(self.number[i])
+            defaultPlace0.observeSingleEvent(of: .value, with: { (snapshot) in self.status[i] = (snapshot.value! as AnyObject).description
+                self.intstatus[i] = Int(self.status[i])!})
+            let defaultPlace9 = self.DBRef.child("table/tbstatus").child(self.number[i])
+            defaultPlace9.observeSingleEvent(of: .value, with: { (snapshot) in self.tbstatus[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace10 = self.DBRef.child("table/sstatus").child(self.number[i])
+            defaultPlace10.observeSingleEvent(of: .value, with: { (snapshot) in self.sstatus[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace11 = self.DBRef.child("table/dstatus").child(self.number[i])
+            defaultPlace11.observeSingleEvent(of: .value, with: { (snapshot) in self.dstatus[i] = (snapshot.value! as AnyObject).description})
+            let defaultPlace16 = self.DBRef.child("table/dxstatus").child(self.number[i])
+            defaultPlace16.observeSingleEvent(of: .value, with: { (snapshot) in self.dxstatus[i] = (snapshot.value! as  AnyObject).description})
+        }
+        self.collectionView.reloadData()
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 }
-
